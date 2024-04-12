@@ -1,11 +1,14 @@
 <script lang="ts">
-  import { Button } from "$lib/components/ui/button";
+  import { Button } from '$lib/components/ui/button';
+  import { Label } from '$lib/components/ui/label';
+  import { Input } from '$lib/components/ui/input';
 </script>
 
-<div class="w-full flex items-center">
-  <form>
-    <label for="title">Title</label>
-    <input type="text" name="title" id="title">
+<div class="mt-5 flex w-full justify-center">
+  <form class="flex w-full max-w-md flex-col items-center gap-y-3">
+    <h1 class="text-3xl">Form</h1>
+    <Label for="title" class="text-xl">Title</Label>
+    <Input id="title" />
     <Button>Button</Button>
   </form>
 </div>
