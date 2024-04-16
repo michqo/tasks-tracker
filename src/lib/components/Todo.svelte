@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Todo } from '$lib/utils/types';
   import dayjs from 'dayjs';
+  import { Checkbox } from "$lib/components/ui/checkbox";
 
   let todos: Todo[] = [
     {
@@ -25,10 +26,6 @@
       createdAt: dayjs('2024-04-12').toDate()
     }
   ];
-
-  function toggleCompletion(idx: number) {
-    todos[idx].completed = !todos[idx].completed;
-  }
 </script>
 
 <div class="p-4">
@@ -41,7 +38,7 @@
         : ''}"
     >
       <span>{todo.title}</span>
-      <input type="checkbox" checked={todo.completed} on:change={() => toggleCompletion(idx)} />
+      <Checkbox bind:checked={todo.completed} />
     </div>
   {/each}
 </div>

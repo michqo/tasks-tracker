@@ -33,6 +33,7 @@
 		"bits-ui": "^0.21.3",
 		"clsx": "^2.1.0",
 		"dayjs": "^1.11.10",
+		"lucide-svelte": "^0.368.0",
 		"svelte-persisted-store": "^0.9.1",
 		"tailwind-merge": "^2.2.2",
 		"tailwind-variants": "^0.2.1"
