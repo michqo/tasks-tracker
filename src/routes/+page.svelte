@@ -3,5 +3,5 @@
   import Todo from '$lib/components/Todo.svelte';
 </script>
 
-<Form />
+<Form on:submit={(values) => console.log(values)} />
 <Todo />

@@ -22,7 +22,7 @@
         <Button variant="outline" size="icon">
           <Pencil size={20} />
         </Button>
-        <Button variant="outline" size="icon">
+        <Button variant="destructive" size="icon">
           <Trash size={20} />
         </Button>
       </div>
