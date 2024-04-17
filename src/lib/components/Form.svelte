@@ -6,9 +6,9 @@
 
 <div class="mt-5 flex w-full justify-center">
   <form class="flex w-full max-w-md flex-col items-center gap-y-3">
-    <h1 class="text-3xl">Form</h1>
+    <h1 class="text-3xl">Todo form</h1>
     <Label for="title" class="text-xl">Title</Label>
     <Input id="title" />
-    <Button>Button</Button>
+    <Button>Add</Button>
   </form>
 </div>
