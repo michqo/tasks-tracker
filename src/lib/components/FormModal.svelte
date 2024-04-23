@@ -1,27 +1,32 @@
 <script lang="ts">
-  import { Button } from '$lib/components/ui/button/index.js';
-  import * as Card from '$lib/components/ui/card/index.js';
-  import { Input } from '$lib/components/ui/input/index.js';
-  import { Label } from '$lib/components/ui/label/index.js';
+  import {
+    Button,
+    buttonVariants
+  } from "$lib/components/ui/button/index.js";
+  import * as Dialog from "$lib/components/ui/dialog/index.js";
+  import { Input } from "$lib/components/ui/input/index.js";
+  import { Label } from "$lib/components/ui/label/index.js";
 </script>
 
-<Card.Root class="w-[350px]">
-  <Card.Header>
-    <Card.Title>Create todo</Card.Title>
-    <Card.Description>Write your ideas here</Card.Description>
-  </Card.Header>
-  <Card.Content>
-    <form>
-      <div class="grid w-full items-center gap-4">
-        <div class="flex flex-col space-y-1.5">
-          <Label for="title">Title</Label>
-          <Input id="title" placeholder="Title" />
-        </div>
+<Dialog.Root>
+  <Dialog.Trigger class={buttonVariants({ variant: "outline" })}
+    >Create Item</Dialog.Trigger
+  >
+  <Dialog.Content class="sm:max-w-[425px]">
+    <Dialog.Header>
+      <Dialog.Title>Todo</Dialog.Title>
+      <Dialog.Description>
+        Write your ideas here
+      </Dialog.Description>
+    </Dialog.Header>
+    <div class="grid gap-4 py-4">
+      <div class="grid grid-cols-4 items-center gap-4">
+        <Label for="title" class="text-right">Title</Label>
+        <Input id="title" class="col-span-3" />
       </div>
-    </form>
-  </Card.Content>
-  <Card.Footer class="flex justify-between">
-    <Button variant="outline">Cancel</Button>
-    <Button>Add</Button>
-  </Card.Footer>
-</Card.Root>
+    </div>
+    <Dialog.Footer>
+      <Button type="submit">Add</Button>
+    </Dialog.Footer>
+  </Dialog.Content>
+</Dialog.Root>
