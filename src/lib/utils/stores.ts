@@ -3,6 +3,11 @@ import { writable, type Writable } from 'svelte/store';
 import type { Todo } from './types';
 
 /**
+ * Writable store for todo form visibility
+ */
+const formOpen = writable(false);
+
+/**
  * Create a writable store for todos
  */
 const todos: Writable<Todo[]> = writable([
@@ -44,4 +49,4 @@ const isAuthenticated = writable(false);
  */
 const settings = writable({});
 
-export { isAuthenticated, selectedTodo, settings, todos };
+export { formOpen, isAuthenticated, selectedTodo, settings, todos };

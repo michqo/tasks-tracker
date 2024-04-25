@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Checkbox } from '$lib/components/ui/checkbox';
-  import { todos } from '$lib/utils/stores';
+  import { formOpen, todos } from '$lib/utils/stores';
   import { Pencil, Trash } from 'lucide-svelte';
   import Button from './ui/button/button.svelte';
 
@@ -11,9 +11,9 @@
 </script>
 
 <div class="p-4">
-  <div class="flex items-center justify-between mb-8">
+  <div class="mb-8 flex items-center justify-between">
     <h1 class="text-2xl font-bold">Todo List</h1>
-    <Button type="submit">Create New</Button>
+    <Button on:click={() => ($formOpen = true)}>Create New</Button>
   </div>
 
   {#each $todos as todo, idx (todo.id)}
