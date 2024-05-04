@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Checkbox } from '$lib/components/ui/checkbox';
   import { formOpen, todos } from '$lib/utils/stores';
-  import { Pencil, Trash } from 'lucide-svelte';
+  import TodoDropdown from './TodoDropdown.svelte';
   import Button from './ui/button/button.svelte';
 
   function onDelete(idx: number) {
@@ -27,12 +27,7 @@
         <span>{todo.title}</span>
       </div>
       <div class="flex items-center gap-x-2">
-        <Button variant="outline" size="icon">
-          <Pencil size={20} />
-        </Button>
-        <Button variant="destructive" size="icon" on:click={() => onDelete(idx)}>
-          <Trash size={20} />
-        </Button>
+        <TodoDropdown bind:checked={todo.completed} on:delete={() => onDelete(idx)} />
       </div>
     </div>
   {/each}

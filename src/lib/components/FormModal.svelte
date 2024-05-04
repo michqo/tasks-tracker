@@ -7,7 +7,7 @@
 </script>
 
 <Dialog.Root bind:open={$formOpen}>
-  <Dialog.Content class="sm:max-w-[425px]">
+  <Dialog.Content class="sm:max-w-md">
     <Dialog.Header>
       <Dialog.Title>Todo</Dialog.Title>
       <Dialog.Description>Write your ideas here</Dialog.Description>
