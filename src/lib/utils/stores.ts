@@ -8,6 +8,11 @@ import type { Todo } from './types';
 const formOpen = writable(false);
 
 /**
+ * Writable store for todo dropdown menu visibility
+ */
+const dropdownOpen = writable(false);
+
+/**
  * Create a writable store for todos
  */
 const todos: Writable<Todo[]> = writable([
@@ -49,4 +54,4 @@ const isAuthenticated = writable(false);
  */
 const settings = writable({});
 
-export { formOpen, isAuthenticated, selectedTodo, settings, todos };
+export { formOpen, dropdownOpen, isAuthenticated, selectedTodo, settings, todos };
