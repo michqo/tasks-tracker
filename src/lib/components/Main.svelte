@@ -4,6 +4,7 @@
   import FormModal from './FormModal.svelte';
   import Button from './ui/button/button.svelte';
   import List from './views/List.svelte';
+  import ThemeToggle from './ThemeToggle.svelte';
 
   function onAdd(event: CustomEvent<Event>) {
     const formEl = event.detail.target as HTMLFormElement;
@@ -28,7 +29,10 @@
 <div class="p-4">
   <div class="mb-8 flex items-center justify-between">
     <h1 class="text-2xl font-bold">Tasks</h1>
-    <Button on:click={() => ($formOpen = true)}>Create New</Button>
+    <div class="flex gap-x-2">
+      <ThemeToggle />
+      <Button on:click={() => ($formOpen = true)}>Create New</Button>
+    </div>
   </div>
 
   <List />
