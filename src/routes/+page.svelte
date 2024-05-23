@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Todo from '$lib/components/Todo.svelte';
+  import Main from '$lib/components/Main.svelte';
 </script>
 
-<Todo />
+<Main />
