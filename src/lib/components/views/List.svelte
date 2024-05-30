@@ -29,7 +29,7 @@
     <div animate:flip={{ duration: flipDurationMs }}>
       <TodoContextMenu bind:checked={todo.completed} on:delete={() => onDelete(idx)}>
         <div
-          class="flex items-center justify-between border-b border-gray-300 py-2 {todo.completed
+          class="group flex items-center justify-between border-b border-gray-300 py-2 {todo.completed
             ? 'line-through'
             : ''}"
         >
@@ -41,7 +41,7 @@
             <div
               use:dragHandle
               aria-label="drag-handle for {todo.id}"
-              class={cn(buttonVariants({ variant: 'outline', size: 'icon', className: 'handle' }))}
+              class={cn(buttonVariants({ variant: 'outline', size: 'icon', className: 'handle md:invisible md:group-hover:visible' }))}
             >
               <GripVertical size={20} />
             </div>
