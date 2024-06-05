@@ -11,6 +11,7 @@
 
   export let open: boolean;
   export let id: string;
+  export let text: string;
 
   const form = superForm(defaults(zod(formSchema)), {
     id: id,
@@ -32,7 +33,7 @@
 <Dialog.Root bind:open>
   <Dialog.Content class="sm:max-w-md">
     <Dialog.Header>
-      <Dialog.Title>Create Task</Dialog.Title>
+      <Dialog.Title>{text} Task</Dialog.Title>
     </Dialog.Header>
     <form method="POST" use:enhance>
       <Form.Field {form} name="name">
@@ -43,7 +44,7 @@
         <Form.Description>This is your task name.</Form.Description>
         <Form.FieldErrors />
       </Form.Field>
-      <Form.Button>Create</Form.Button>
+      <Form.Button>{text}</Form.Button>
     </form>
   </Dialog.Content>
 </Dialog.Root>

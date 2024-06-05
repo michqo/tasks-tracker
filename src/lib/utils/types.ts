@@ -2,12 +2,11 @@
  * Types
  */
 
-
-interface Todo {
+interface Task {
   id: number;
   name: string;
   completed: boolean;
   createdAt: Date;
 }
 
-export type { Todo };
+export type { Task };

@@ -14,7 +14,7 @@
   </ContextMenu.Trigger>
   <ContextMenu.Content>
     <ContextMenu.Group>
-      <ContextMenu.Label>Todo Actions</ContextMenu.Label>
+      <ContextMenu.Label>Task Actions</ContextMenu.Label>
       <ContextMenu.Separator />
       <ContextMenu.CheckboxItem bind:checked>Done</ContextMenu.CheckboxItem>
       <ContextMenu.Item on:click={() => dispatch('edit')}>

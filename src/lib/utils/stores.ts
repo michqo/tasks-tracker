@@ -1,16 +1,11 @@
 import dayjs from 'dayjs';
 import { writable, type Writable } from 'svelte/store';
-import type { Todo } from './types';
+import type { Task } from './types';
 
 /**
- * Writable store for todo dropdown menu visibility
+ * Create a writable store for tasks
  */
-const dropdownOpen = writable(false);
-
-/**
- * Create a writable store for todos
- */
-const todos: Writable<Todo[]> = writable([
+const taskList: Writable<Task[]> = writable([
   {
     id: 1,
     name: 'Buy groceries',
@@ -35,11 +30,6 @@ const todos: Writable<Todo[]> = writable([
 ]);
 
 /**
- * Create a writable store for the selected todo
- */
-const selectedTodo = writable(null);
-
-/**
  * Create a readable store for the user's authentication status
  */
 const isAuthenticated = writable(false);
@@ -49,4 +39,4 @@ const isAuthenticated = writable(false);
  */
 const settings = writable({});
 
-export { dropdownOpen, isAuthenticated, selectedTodo, settings, todos };
+export { isAuthenticated, settings, taskList };

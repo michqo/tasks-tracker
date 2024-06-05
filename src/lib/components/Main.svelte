@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { todos } from '$lib/utils/stores';
+  import { taskList } from '$lib/utils/stores';
   import dayjs from 'dayjs';
   import FormModal from './FormModal.svelte';
   import ThemeToggle from './ThemeToggle.svelte';
@@ -9,10 +9,10 @@
   let formOpen = false;
 
   function onAdd(event: CustomEvent<string>) {
-    $todos = [
-      ...$todos,
+    $taskList = [
+      ...$taskList,
       {
-        id: $todos.length + 1,
+        id: $taskList.length + 1,
         name: event.detail,
         completed: false,
         createdAt: dayjs().toDate()
@@ -21,7 +21,7 @@
   }
 </script>
 
-<FormModal id="create" bind:open={formOpen} on:submit={onAdd} />
+<FormModal bind:open={formOpen} id="create" text="Create" on:submit={onAdd} />
 
 <div class="p-4">
   <div class="mb-8 flex items-center justify-between">

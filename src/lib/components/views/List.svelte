@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Checkbox } from '$lib/components/ui/checkbox';
-  import { todos } from '$lib/utils/stores';
-  import type { Todo } from '$lib/utils/types';
+  import { taskList } from '$lib/utils/stores';
+  import type { Task } from '$lib/utils/types';
   import { GripVertical } from 'lucide-svelte';
   import { dragHandle, dragHandleZone, type DndEvent } from 'svelte-dnd-action';
   import { flip } from 'svelte/animate';
@@ -16,52 +16,52 @@
   let taskEditOpen = false;
 
   function onDelete(idx: number) {
-    $todos.splice(idx, 1);
-    $todos = $todos;
+    $taskList.splice(idx, 1);
+    $taskList = $taskList;
   }
   function onEdit(idx: number) {
-    const task = $todos[idx];
+    const task = $taskList[idx];
     taskEditIdx = idx;
     taskEditName = task.name;
     taskEditOpen = true;
   }
 
   function onEditSubmit(event: CustomEvent<string>) {
-    $todos[taskEditIdx].name = event.detail;
+    $taskList[taskEditIdx].name = event.detail;
   }
 
-  function handleSort(e: CustomEvent<DndEvent<Todo>>) {
-    $todos = e.detail.items;
+  function handleSort(e: CustomEvent<DndEvent<Task>>) {
+    $taskList = e.detail.items;
   }
 </script>
 
-<FormModal id="edit" bind:open={taskEditOpen} on:submit={onEditSubmit} />
+<FormModal bind:open={taskEditOpen} id="edit" text="Edit" on:submit={onEditSubmit} />
 
 <section
-  use:dragHandleZone={{ items: $todos, flipDurationMs, dropTargetStyle: {} }}
+  use:dragHandleZone={{ items: $taskList, flipDurationMs, dropTargetStyle: {} }}
   on:consider={handleSort}
   on:finalize={handleSort}
 >
-  {#each $todos as todo, idx (todo.id)}
+  {#each $taskList as task, idx (task.id)}
     <div animate:flip={{ duration: flipDurationMs }}>
       <TaskContextMenu
-        bind:checked={todo.completed}
+        bind:checked={task.completed}
         on:delete={() => onDelete(idx)}
         on:edit={() => onEdit(idx)}
       >
         <div
-          class="group flex items-center justify-between border-b border-gray-300 py-2 {todo.completed
+          class="group flex items-center justify-between border-b border-gray-300 py-2 {task.completed
             ? 'line-through'
             : ''}"
         >
           <div class="flex items-center gap-x-3">
-            <Checkbox bind:checked={todo.completed} />
-            <span>{todo.name}</span>
+            <Checkbox bind:checked={task.completed} />
+            <span>{task.name}</span>
           </div>
           <div class="flex items-center gap-x-2">
             <div
               use:dragHandle
-              aria-label="drag-handle for {todo.id}"
+              aria-label="drag-handle for {task.id}"
               class={buttonVariants({
                 variant: 'outline',
                 size: 'icon',
