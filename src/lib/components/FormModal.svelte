@@ -3,20 +3,23 @@
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input/index.js';
   import { formSchema } from '$lib/utils/schemas';
-  import { formOpen } from '$lib/utils/stores';
   import { createEventDispatcher } from 'svelte';
   import { defaults, superForm } from 'sveltekit-superforms';
   import { zod, zodClient } from 'sveltekit-superforms/adapters';
 
   const dispatch = createEventDispatcher();
 
+  export let open: boolean;
+  export let id: string;
+
   const form = superForm(defaults(zod(formSchema)), {
+    id: id,
     SPA: true,
     validators: zodClient(formSchema),
     onUpdate: ({ form: f }) => {
       if (f.valid) {
         dispatch('submit', f.data.name);
-        $formOpen = false;
+        open = false;
       } else {
         console.error('Please fix the errors in the form.');
       }
@@ -26,7 +29,7 @@
   const { form: formData, enhance } = form;
 </script>
 
-<Dialog.Root bind:open={$formOpen}>
+<Dialog.Root bind:open>
   <Dialog.Content class="sm:max-w-md">
     <Dialog.Header>
       <Dialog.Title>Create Task</Dialog.Title>
