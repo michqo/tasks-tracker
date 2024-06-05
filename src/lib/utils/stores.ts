@@ -18,21 +18,21 @@ const dropdownOpen = writable(false);
 const todos: Writable<Todo[]> = writable([
   {
     id: 1,
-    title: 'Buy groceries',
+    name: 'Buy groceries',
     description: '',
     completed: false,
     createdAt: dayjs('2024-04-12').toDate()
   },
   {
     id: 2,
-    title: 'Walk the dog',
+    name: 'Walk the dog',
     description: '',
     completed: true,
     createdAt: dayjs('2024-04-12').toDate()
   },
   {
     id: 3,
-    title: 'Do laundry',
+    name: 'Do laundry',
     description: '',
     completed: false,
     createdAt: dayjs('2024-04-12').toDate()

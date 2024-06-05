@@ -1,6 +1,5 @@
 <script lang="ts">
   import { Checkbox } from '$lib/components/ui/checkbox';
-  import { cn } from '$lib/utils';
   import { todos } from '$lib/utils/stores';
   import type { Todo } from '$lib/utils/types';
   import { GripVertical } from 'lucide-svelte';
@@ -35,13 +34,17 @@
         >
           <div class="flex items-center gap-x-3">
             <Checkbox bind:checked={todo.completed} />
-            <span>{todo.title}</span>
+            <span>{todo.name}</span>
           </div>
           <div class="flex items-center gap-x-2">
             <div
               use:dragHandle
               aria-label="drag-handle for {todo.id}"
-              class={cn(buttonVariants({ variant: 'outline', size: 'icon', className: 'handle md:invisible md:group-hover:visible' }))}
+              class={buttonVariants({
+                variant: 'outline',
+                size: 'icon',
+                className: 'handle md:invisible md:group-hover:visible'
+              })}
             >
               <GripVertical size={20} />
             </div>

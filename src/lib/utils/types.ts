@@ -5,8 +5,7 @@
 
 interface Todo {
   id: number;
-  title: string;
-  description: string;
+  name: string;
   completed: boolean;
   createdAt: Date;
 }

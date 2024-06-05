@@ -1,35 +1,46 @@
 <script lang="ts">
-  import { Button } from '$lib/components/ui/button/index.js';
   import * as Dialog from '$lib/components/ui/dialog/index.js';
+  import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input/index.js';
-  import { Label } from '$lib/components/ui/label/index.js';
+  import { formSchema } from '$lib/utils/schemas';
   import { formOpen } from '$lib/utils/stores';
   import { createEventDispatcher } from 'svelte';
+  import { defaults, superForm } from 'sveltekit-superforms';
+  import { zod, zodClient } from 'sveltekit-superforms/adapters';
 
   const dispatch = createEventDispatcher();
 
-  function onSubmit(event: Event) {
-    dispatch('submit', event);
-    $formOpen = false;
-  }
+  const form = superForm(defaults(zod(formSchema)), {
+    SPA: true,
+    validators: zodClient(formSchema),
+    onUpdate: ({ form: f }) => {
+      if (f.valid) {
+        dispatch('submit', f.data.name);
+        $formOpen = false;
+      } else {
+        console.error('Please fix the errors in the form.');
+      }
+    }
+  });
+
+  const { form: formData, enhance } = form;
 </script>
 
 <Dialog.Root bind:open={$formOpen}>
   <Dialog.Content class="sm:max-w-md">
     <Dialog.Header>
-      <Dialog.Title>Create Todo</Dialog.Title>
-      <Dialog.Description>Write your ideas here</Dialog.Description>
+      <Dialog.Title>Create Task</Dialog.Title>
     </Dialog.Header>
-    <form on:submit|preventDefault={onSubmit}>
-      <div class="grid gap-4 py-4">
-        <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="title" class="text-right">Title</Label>
-          <Input id="title" name="title" class="col-span-3" />
-        </div>
-      </div>
-      <Dialog.Footer>
-        <Button type="submit">Add</Button>
-      </Dialog.Footer>
+    <form method="POST" use:enhance>
+      <Form.Field {form} name="name">
+        <Form.Control let:attrs>
+          <Form.Label>Name</Form.Label>
+          <Input {...attrs} bind:value={$formData.name} />
+        </Form.Control>
+        <Form.Description>This is your task name.</Form.Description>
+        <Form.FieldErrors />
+      </Form.Field>
+      <Form.Button>Submit</Form.Button>
     </form>
   </Dialog.Content>
 </Dialog.Root>

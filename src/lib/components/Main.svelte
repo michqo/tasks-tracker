@@ -2,21 +2,16 @@
   import { formOpen, todos } from '$lib/utils/stores';
   import dayjs from 'dayjs';
   import FormModal from './FormModal.svelte';
+  import ThemeToggle from './ThemeToggle.svelte';
   import Button from './ui/button/button.svelte';
   import List from './views/List.svelte';
-  import ThemeToggle from './ThemeToggle.svelte';
 
-  function onAdd(event: CustomEvent<Event>) {
-    const formEl = event.detail.target as HTMLFormElement;
-    const data = new FormData(formEl);
-    const title = data.get('title') as string;
-
+  function onAdd(event: CustomEvent<string>) {
     $todos = [
       ...$todos,
       {
         id: $todos.length + 1,
-        title: title,
-        description: '',
+        name: event.detail,
         completed: false,
         createdAt: dayjs().toDate()
       }
