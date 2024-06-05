@@ -17,7 +17,7 @@
       <ContextMenu.Label>Todo Actions</ContextMenu.Label>
       <ContextMenu.Separator />
       <ContextMenu.CheckboxItem bind:checked>Done</ContextMenu.CheckboxItem>
-      <ContextMenu.Item>
+      <ContextMenu.Item on:click={() => dispatch('edit')}>
         <Pencil class="mr-2 h-4 w-4" />
         <span>Edit</span>
       </ContextMenu.Item>

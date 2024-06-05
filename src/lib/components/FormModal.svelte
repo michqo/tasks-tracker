@@ -40,7 +40,7 @@
         <Form.Description>This is your task name.</Form.Description>
         <Form.FieldErrors />
       </Form.Field>
-      <Form.Button>Submit</Form.Button>
+      <Form.Button>Create</Form.Button>
     </form>
   </Dialog.Content>
 </Dialog.Root>

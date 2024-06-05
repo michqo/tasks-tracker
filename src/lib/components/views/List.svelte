@@ -5,7 +5,7 @@
   import { GripVertical } from 'lucide-svelte';
   import { dragHandle, dragHandleZone, type DndEvent } from 'svelte-dnd-action';
   import { flip } from 'svelte/animate';
-  import TodoContextMenu from '../TodoContextMenu.svelte';
+  import TaskContextMenu from '../TaskContextMenu.svelte';
   import { buttonVariants } from '../ui/button';
 
   const flipDurationMs = 300;
@@ -26,7 +26,7 @@
 >
   {#each $todos as todo, idx (todo.id)}
     <div animate:flip={{ duration: flipDurationMs }}>
-      <TodoContextMenu bind:checked={todo.completed} on:delete={() => onDelete(idx)}>
+      <TaskContextMenu bind:checked={todo.completed} on:delete={() => onDelete(idx)}>
         <div
           class="group flex items-center justify-between border-b border-gray-300 py-2 {todo.completed
             ? 'line-through'
@@ -50,7 +50,7 @@
             </div>
           </div>
         </div>
-      </TodoContextMenu>
+      </TaskContextMenu>
     </div>
   {/each}
 </section>
