@@ -4,9 +4,18 @@
 
 interface Task {
   id: number;
-  name: string;
+  task: string;
   completed: boolean;
-  createdAt: Date;
+  created_at: Date;
 }
 
-export type { Task };
+interface PostTask {
+  task: string;
+}
+
+interface ActionResponse {
+  res: string;
+}
+
+export type { ActionResponse, PostTask, Task };
+

@@ -1,23 +1,22 @@
 <script lang="ts">
-  import { taskList } from '$lib/utils/stores';
-  import dayjs from 'dayjs';
+  import { api } from '$lib/utils/api';
+  import { createQuery, useQueryClient } from '@tanstack/svelte-query';
   import FormModal from './FormModal.svelte';
   import ThemeToggle from './ThemeToggle.svelte';
   import Button from './ui/button/button.svelte';
   import List from './views/List.svelte';
 
+  const client = useQueryClient();
   let formOpen = false;
 
-  function onAdd(event: CustomEvent<string>) {
-    $taskList = [
-      ...$taskList,
-      {
-        id: $taskList.length + 1,
-        name: event.detail,
-        completed: false,
-        createdAt: dayjs().toDate()
-      }
-    ];
+  const query = createQuery({
+    queryKey: ['tasks'],
+    queryFn: () => api().getTasks()
+  });
+
+  async function onAdd(event: CustomEvent<string>) {
+    await api().postTask({ task: event.detail });
+    client.invalidateQueries({ queryKey: ['tasks'] });
   }
 </script>
 
@@ -31,6 +30,7 @@
       <Button on:click={() => (formOpen = true)}>Create New</Button>
     </div>
   </div>
-
-  <List />
+  {#if $query.data}
+    <List data={$query.data} />
+  {/if}
 </div>
