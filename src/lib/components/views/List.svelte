@@ -2,7 +2,6 @@
   import { Checkbox } from '$lib/components/ui/checkbox';
   import { api } from '$lib/utils/api';
   import type { Task } from '$lib/utils/types';
-  import { useQueryClient } from '@tanstack/svelte-query';
   import { GripVertical } from 'lucide-svelte';
   import { dragHandle, dragHandleZone, type DndEvent } from 'svelte-dnd-action';
   import { flip } from 'svelte/animate';
@@ -14,15 +13,13 @@
 
   export let data: Task[];
 
-  const client = useQueryClient();
-
   let taskEditId = -1;
   let taskEditName = '';
   let taskEditOpen = false;
 
   async function onDelete(id: number) {
+    data = data.filter((task) => task.id !== id);
     await api().deleteTask(id);
-    client.invalidateQueries({ queryKey: ['tasks'] });
   }
   function onEdit(id: number) {
     taskEditId = id;
@@ -30,8 +27,13 @@
   }
 
   async function onEditSubmit(event: CustomEvent<string>) {
+    data = data.map((task) => {
+      if (task.id === taskEditId) {
+        return { ...task, task: event.detail };
+      }
+      return task;
+    });
     await api().updateTask(taskEditId, { task: event.detail });
-    client.invalidateQueries({ queryKey: ['tasks'] });
   }
 
   function handleSort(e: CustomEvent<DndEvent<Task>>) {
