@@ -1,6 +1,6 @@
 <script lang="ts">
   import { api } from '$lib/utils/api';
-  import { createQuery, useQueryClient } from '@tanstack/svelte-query';
+  import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
   import FormModal from './FormModal.svelte';
   import ThemeToggle from './ThemeToggle.svelte';
   import Button from './ui/button/button.svelte';
@@ -14,13 +14,22 @@
     queryFn: () => api().getTasks()
   });
 
-  async function onAdd(event: CustomEvent<string>) {
-    await api().postTask({ task: event.detail });
-    client.invalidateQueries({ queryKey: ['tasks'] });
-  }
+  const postMutation = createMutation({
+    mutationFn: (task: string) => {
+      return api().postTask({ task });
+    },
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ['tasks'] });
+    }
+  });
 </script>
 
-<FormModal bind:open={formOpen} id="create" text="Create" on:submit={onAdd} />
+<FormModal
+  bind:open={formOpen}
+  id="create"
+  text="Create"
+  on:submit={(event) => $postMutation.mutate(event.detail)}
+/>
 
 <div class="p-4">
   <div class="mb-8 flex items-center justify-between">

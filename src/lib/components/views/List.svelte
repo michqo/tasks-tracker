@@ -2,6 +2,7 @@
   import { Checkbox } from '$lib/components/ui/checkbox';
   import { api } from '$lib/utils/api';
   import type { Task } from '$lib/utils/types';
+  import { createMutation } from '@tanstack/svelte-query';
   import { GripVertical } from 'lucide-svelte';
   import { dragHandle, dragHandleZone, type DndEvent } from 'svelte-dnd-action';
   import { flip } from 'svelte/animate';
@@ -17,23 +18,28 @@
   let taskEditName = '';
   let taskEditOpen = false;
 
-  async function onDelete(id: number) {
-    data = data.filter((task) => task.id !== id);
-    await api().deleteTask(id);
-  }
+  const deleteMutation = createMutation({
+    mutationFn: (id: number) => {
+      data = data.filter((task) => task.id !== id);
+      return api().deleteTask(id);
+    }
+  });
+
+  const editMutation = createMutation({
+    mutationFn: (name: string) => {
+      data = data.map((task) => {
+        if (task.id == taskEditId) {
+          return { ...task, task: name };
+        }
+        return task;
+      });
+      return api().updateTask(taskEditId, { task: name });
+    }
+  });
+
   function onEdit(id: number) {
     taskEditId = id;
     taskEditOpen = true;
-  }
-
-  async function onEditSubmit(event: CustomEvent<string>) {
-    data = data.map((task) => {
-      if (task.id === taskEditId) {
-        return { ...task, task: event.detail };
-      }
-      return task;
-    });
-    await api().updateTask(taskEditId, { task: event.detail });
   }
 
   function handleSort(e: CustomEvent<DndEvent<Task>>) {
@@ -41,7 +47,12 @@
   }
 </script>
 
-<FormModal bind:open={taskEditOpen} id="edit" text="Edit" on:submit={onEditSubmit} />
+<FormModal
+  bind:open={taskEditOpen}
+  id="edit"
+  text="Edit"
+  on:submit={(event) => $editMutation.mutate(event.detail)}
+/>
 
 <section
   use:dragHandleZone={{ items: data, flipDurationMs, dropTargetStyle: {} }}
@@ -52,7 +63,7 @@
     <div animate:flip={{ duration: flipDurationMs }}>
       <TaskContextMenu
         bind:checked={task.completed}
-        on:delete={() => onDelete(task.id)}
+        on:delete={() => $deleteMutation.mutate(task.id)}
         on:edit={() => onEdit(task.id)}
       >
         <div

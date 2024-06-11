@@ -1,7 +1,7 @@
 import { PUBLIC_API_URL } from '$env/static/public';
 import type { Task, PostTask } from './types';
 
-const JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4MTI1ODMyLCJpYXQiOjE3MTgwMzk0MzIsImp0aSI6IjA3OWM2NjNmZjI5MDQ1YTViMWQxOTY3ZTlmZjVkNDk3IiwidXNlcl9pZCI6N30.-aXBLOhgndFI8QQhC5yF9gI6rp7ZjK48E9txqbI-9Yo"
+const JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4MjIyNjkzLCJpYXQiOjE3MTgxMzYyOTMsImp0aSI6ImNmZmRiMjM2Njg2ZTQzYjNhNjExYjUxNWM2ZjRhNzBmIiwidXNlcl9pZCI6N30.pxnkNeh1EgFSxnt81lTKKD_J0EmkPBD_qhrHgg5n1gg"
 
 const api = (customFetch = fetch) => ({
   getTasks: async (): Promise<Task[]> => {
