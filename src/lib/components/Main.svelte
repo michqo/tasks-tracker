@@ -5,6 +5,8 @@
   import ThemeToggle from './ThemeToggle.svelte';
   import Button from './ui/button/button.svelte';
   import List from './views/List.svelte';
+  import { token } from '$lib/utils/stores';
+  import { invalidateAll } from '$app/navigation';
 
   const client = useQueryClient();
   let formOpen = false;
@@ -19,9 +21,14 @@
       return api().postTask({ task });
     },
     onSuccess: () => {
-      client.invalidateQueries({ queryKey: ['tasks'] });
+      return client.invalidateQueries({ queryKey: ['tasks'] });
     }
   });
+
+  function logOut() {
+    $token = '';
+    invalidateAll();
+  }
 </script>
 
 <FormModal
@@ -36,6 +43,7 @@
     <h1 class="text-2xl font-bold">Tasks</h1>
     <div class="flex gap-x-2">
       <ThemeToggle />
+      <Button variant="secondary" on:click={logOut}>Log out</Button>
       <Button on:click={() => (formOpen = true)}>Create New</Button>
     </div>
   </div>

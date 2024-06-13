@@ -14,6 +14,6 @@ const settings = writable({});
 /**
  * Create a persisted store for JWT
  */
-const token = persisted('token', null);
+const token = persisted('token', '');
 
 export { isAuthenticated, settings, token };

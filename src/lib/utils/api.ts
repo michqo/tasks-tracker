@@ -1,14 +1,17 @@
 import { PUBLIC_API_URL } from '$env/static/public';
-import type { Task, PostTask } from './types';
+import { get } from 'svelte/store';
+import type { LoginSchema } from './schemas';
+import { token } from './stores';
+import type { LoginResponse, PostTask, Task } from './types';
 
-const JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4MzQ5MTY4LCJpYXQiOjE3MTgyNjI3NjgsImp0aSI6ImI5NzllYTliY2RmZjQyZDdhMWZiMzJiYzEyZjc3ODc1IiwidXNlcl9pZCI6M30.l5aDGHiKuftartJdbpdGTo-O4RIV6MT6QuVH2GXWtVU"
+const headers = {
+  Authorization: `JWT ${get(token)}`
+};
 
 const api = (customFetch = fetch) => ({
   getTasks: async (): Promise<Task[]> => {
     const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/3`, {
-      headers: {
-        "Authorization": `JWT ${JWT}`
-      }
+      headers
     });
     if (!response.ok) {
       throw response.status;
@@ -18,10 +21,10 @@ const api = (customFetch = fetch) => ({
   },
   postTask: async (task: PostTask) => {
     const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/3/`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Authorization": `JWT ${JWT}`,
-        "Content-Type": "application/json"
+        ...headers,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(task)
     });
@@ -31,10 +34,8 @@ const api = (customFetch = fetch) => ({
   },
   deleteTask: async (id: number) => {
     const response = await customFetch(`${PUBLIC_API_URL}/api/tasks/${id}/`, {
-      method: "DELETE",
-      headers: {
-        "Authorization": `JWT ${JWT}`,
-      }
+      method: 'DELETE',
+      headers
     });
     if (!response.ok) {
       throw response.status;
@@ -43,16 +44,29 @@ const api = (customFetch = fetch) => ({
   },
   updateTask: async (id: number, task: PostTask) => {
     const response = await customFetch(`${PUBLIC_API_URL}/api/tasks/${id}/`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "Authorization": `JWT ${JWT}`,
-        "Content-Type": "application/json"
+        ...headers,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(task)
     });
     if (!response.ok) {
       throw response.status;
     }
+  },
+  createJwt: async (credentials: LoginSchema): Promise<LoginResponse> => {
+    const response = await customFetch(`${PUBLIC_API_URL}/auth/jwt/create/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(credentials)
+    });
+    if (!response.ok) {
+      throw response.status;
+    }
+    return response.json();
   }
 });
 

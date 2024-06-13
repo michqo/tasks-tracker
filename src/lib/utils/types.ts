@@ -17,5 +17,9 @@ interface ActionResponse {
   res: string;
 }
 
-export type { ActionResponse, PostTask, Task };
+interface LoginResponse {
+  refresh: string;
+  access: string;
+}
 
+export type { ActionResponse, LoginResponse, PostTask, Task };
