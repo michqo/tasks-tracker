@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { persisted } from 'svelte-persisted-store'
 
 /**
  * Create a readable store for the user's authentication status
@@ -10,4 +11,9 @@ const isAuthenticated = writable(false);
  */
 const settings = writable({});
 
-export { isAuthenticated, settings };
+/**
+ * Create a persisted store for JWT
+ */
+const token = persisted('token', null);
+
+export { isAuthenticated, settings, token };

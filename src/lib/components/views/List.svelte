@@ -43,7 +43,7 @@
   }
 
   function handleSort(e: CustomEvent<DndEvent<Task>>) {
-    // $taskList = e.detail.items;
+    data = e.detail.items;
   }
 </script>
 
