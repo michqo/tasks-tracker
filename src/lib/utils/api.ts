@@ -83,4 +83,6 @@ const api = (customFetch = fetch) => ({
   }
 });
 
-export { api };
+const sortTasks = (tasks: Task[]) => tasks.sort((a, b) => a.position - b.position);
+
+export { api, sortTasks };

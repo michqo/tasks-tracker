@@ -7,6 +7,7 @@ interface Task {
   task: string;
   completed: boolean;
   created_at: Date;
+  position: number;
 }
 
 interface PostTask {

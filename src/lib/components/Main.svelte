@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { api } from '$lib/utils/api';
+  import { api, sortTasks } from '$lib/utils/api';
   import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
   import FormModal from './FormModal.svelte';
   import ThemeToggle from './ThemeToggle.svelte';
@@ -13,7 +13,8 @@
 
   const query = createQuery({
     queryKey: ['tasks'],
-    queryFn: () => api().getTasks()
+    queryFn: () => api().getTasks(),
+    select: sortTasks
   });
 
   const postMutation = createMutation({
