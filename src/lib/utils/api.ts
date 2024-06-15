@@ -80,6 +80,19 @@ const api = (customFetch = fetch) => ({
       throw response.status;
     }
     return response.status;
+  },
+  putPositions: async (positions: Record<string, number>) => {
+    const response = await customFetch(`${PUBLIC_API_URL}/api/positions/tasks/`, {
+      method: 'PUT',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(positions)
+    });
+    if (!response.ok) {
+      throw response.status;
+    }
   }
 });
 

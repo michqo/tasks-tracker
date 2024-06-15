@@ -37,12 +37,24 @@
     }
   });
 
+  async function updatePositions() {
+    const positions = data.reduce((acc: Record<string, number>, task, idx) => {
+      acc[task.id] = idx;
+      return acc;
+    }, {});
+    await api().putPositions(positions);
+  }
+
   function onEdit(id: number) {
     taskEditId = id;
     taskEditOpen = true;
   }
 
   function handleSort(e: CustomEvent<DndEvent<Task>>) {
+    data = e.detail.items;
+    updatePositions();
+  }
+  function handleDrag(e: CustomEvent<DndEvent<Task>>) {
     data = e.detail.items;
   }
 </script>
@@ -56,7 +68,7 @@
 
 <section
   use:dragHandleZone={{ items: data, flipDurationMs, dropTargetStyle: {} }}
-  on:consider={handleSort}
+  on:consider={handleDrag}
   on:finalize={handleSort}
 >
   {#each data as task (task.id)}
