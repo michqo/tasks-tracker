@@ -10,7 +10,7 @@ const headers = {
 
 const api = (customFetch = fetch) => ({
   getTasks: async (): Promise<Task[]> => {
-    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/3`, {
+    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/1`, {
       headers
     });
     if (!response.ok) {
@@ -20,7 +20,7 @@ const api = (customFetch = fetch) => ({
     return data;
   },
   postTask: async (task: PostTask) => {
-    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/3/`, {
+    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/1/`, {
       method: 'POST',
       headers: {
         ...headers,
@@ -67,6 +67,19 @@ const api = (customFetch = fetch) => ({
       throw response.status;
     }
     return response.json();
+  },
+  postUser: async (credentials: LoginSchema): Promise<number> => {
+    const response = await customFetch(`${PUBLIC_API_URL}/auth/users/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(credentials)
+    });
+    if (!response.ok) {
+      throw response.status;
+    }
+    return response.status;
   }
 });
 
