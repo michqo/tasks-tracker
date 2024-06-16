@@ -2,15 +2,60 @@ import { PUBLIC_API_URL } from '$env/static/public';
 import { get } from 'svelte/store';
 import type { LoginSchema } from './schemas';
 import { token } from './stores';
-import type { LoginResponse, PostTask, Task } from './types';
+import type { LoginResponse, PostTask, PostTaskList, Task, TaskList } from './types';
 
 const headers = {
   Authorization: `JWT ${get(token)}`
 };
 
 const api = (customFetch = fetch) => ({
-  getTasks: async (): Promise<Task[]> => {
-    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/1`, {
+  getTaskLists: async (): Promise<TaskList[]> => {
+    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists`, {
+      headers
+    });
+    if (!response.ok) {
+      throw response.status;
+    }
+    const data = (await response.json()).results;
+    return data;
+  },
+  postTaskList: async (task: PostTaskList) => {
+    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(task)
+    });
+    if (!response.ok) {
+      throw response.status;
+    }
+  },
+  deleteTaskList: async (id: number) => {
+    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/${id}/`, {
+      method: 'DELETE',
+      headers
+    });
+    if (!response.ok) {
+      throw response.status;
+    }
+  },
+  updateTaskList: async (id: number, task: PostTaskList) => {
+    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/${id}/`, {
+      method: 'PUT',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(task)
+    });
+    if (!response.ok) {
+      throw response.status;
+    }
+  },
+  getTasks: async (id: string): Promise<Task[]> => {
+    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/${id}`, {
       headers
     });
     if (!response.ok) {
@@ -19,8 +64,8 @@ const api = (customFetch = fetch) => ({
     const data = (await response.json()).tasks as Task[];
     return data;
   },
-  postTask: async (task: PostTask) => {
-    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/1/`, {
+  postTask: async (task: PostTask, id: string) => {
+    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/${id}/`, {
       method: 'POST',
       headers: {
         ...headers,
@@ -40,7 +85,6 @@ const api = (customFetch = fetch) => ({
     if (!response.ok) {
       throw response.status;
     }
-    return response;
   },
   updateTask: async (id: number, task: PostTask) => {
     const response = await customFetch(`${PUBLIC_API_URL}/api/tasks/${id}/`, {
@@ -81,8 +125,8 @@ const api = (customFetch = fetch) => ({
     }
     return response.status;
   },
-  putPositions: async (positions: Record<string, number>) => {
-    const response = await customFetch(`${PUBLIC_API_URL}/api/positions/tasks/`, {
+  putPositions: async (positions: Record<string, number>, type: 'tasks' | 'tasklists') => {
+    const response = await customFetch(`${PUBLIC_API_URL}/api/positions/${type}/`, {
       method: 'PUT',
       headers: {
         ...headers,
@@ -97,5 +141,6 @@ const api = (customFetch = fetch) => ({
 });
 
 const sortTasks = (tasks: Task[]) => tasks.sort((a, b) => a.position - b.position);
+const sortTaskLists = (tasks: TaskList[]) => tasks.sort((a, b) => a.position - b.position);
 
-export { api, sortTasks };
+export { api, sortTasks, sortTaskLists };

@@ -1,10 +1,11 @@
 <script lang="ts">
+  import { page } from '$app/stores';
   import { invalidateAll } from '$app/navigation';
   import FormModal from '$lib/components/FormModal.svelte';
   import ThemeToggle from '$lib/components/ThemeToggle.svelte';
   import Button from '$lib/components/ui/button/button.svelte';
-  import TaskLists from '$lib/components/views/TaskLists.svelte';
-  import { api, sortTaskLists } from '$lib/utils/api';
+  import Tasks from '$lib/components/views/Tasks.svelte';
+  import { api, sortTasks } from '$lib/utils/api';
   import { token } from '$lib/utils/stores';
   import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
 
@@ -12,17 +13,17 @@
   let formOpen = false;
 
   const query = createQuery({
-    queryKey: ['taskLists'],
-    queryFn: () => api().getTaskLists(),
-    select: sortTaskLists
+    queryKey: ['tasks'],
+    queryFn: () => api().getTasks($page.params.id),
+    select: sortTasks
   });
 
   const postMutation = createMutation({
     mutationFn: (task: string) => {
-      return api().postTaskList({ name: task });
+      return api().postTask({ task }, $page.params.id);
     },
     onSuccess: () => {
-      return client.invalidateQueries({ queryKey: ['taskLists'] });
+      return client.invalidateQueries({ queryKey: ['tasks'] });
     }
   });
 
@@ -49,6 +50,6 @@
     </div>
   </div>
   {#if $query.data}
-    <TaskLists data={$query.data} />
+    <Tasks data={$query.data} />
   {/if}
 </div>

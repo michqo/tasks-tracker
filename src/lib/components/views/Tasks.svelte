@@ -42,7 +42,7 @@
       acc[task.id] = idx;
       return acc;
     }, {});
-    await api().putPositions(positions);
+    await api().putPositions(positions, 'tasks');
   }
 
   function onEdit(id: number) {
