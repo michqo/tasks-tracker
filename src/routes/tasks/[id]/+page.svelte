@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { page } from '$app/stores';
   import { invalidateAll } from '$app/navigation';
+  import { page } from '$app/stores';
   import FormModal from '$lib/components/FormModal.svelte';
   import ThemeToggle from '$lib/components/ThemeToggle.svelte';
   import Button from '$lib/components/ui/button/button.svelte';
@@ -37,6 +37,7 @@
   bind:open={formOpen}
   id="create"
   text="Create"
+  type="task"
   on:submit={(event) => $postMutation.mutate(event.detail)}
 />
 

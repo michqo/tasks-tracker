@@ -1,13 +1,14 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import { Checkbox } from '$lib/components/ui/checkbox';
   import { api } from '$lib/utils/api';
-  import type { Task, TaskList } from '$lib/utils/types';
+  import type { TaskList } from '$lib/utils/types';
   import { createMutation } from '@tanstack/svelte-query';
   import { GripVertical } from 'lucide-svelte';
   import { dragHandle, dragHandleZone, type DndEvent } from 'svelte-dnd-action';
   import { flip } from 'svelte/animate';
   import FormModal from '../FormModal.svelte';
-  import TaskContextMenu from '../TaskContextMenu.svelte';
+  import TaskListMenu from '../TaskListMenu.svelte';
   import { buttonVariants } from '../ui/button';
 
   const flipDurationMs = 300;
@@ -15,7 +16,7 @@
   export let data: TaskList[];
 
   let editId = -1;
-  let taskEditName = '';
+  let editName = '';
   let editOpen = false;
 
   const deleteMutation = createMutation({
@@ -60,9 +61,10 @@
 </script>
 
 <FormModal
-  bind:open={editOpen}
   id="editTaskList"
   text="Edit"
+  type="tasklist"
+  bind:open={editOpen}
   on:submit={(event) => $editMutation.mutate(event.detail)}
 />
 
@@ -73,8 +75,9 @@
 >
   {#each data as task (task.id)}
     <div animate:flip={{ duration: flipDurationMs }}>
-      <TaskContextMenu
-        bind:checked={task.completed}
+      <TaskListMenu
+        name={task.name}
+        on:open={() => goto(`/tasks/${task.id}`)}
         on:delete={() => $deleteMutation.mutate(task.id)}
         on:edit={() => onEdit(task.id)}
       >
@@ -85,7 +88,7 @@
         >
           <div class="flex items-center gap-x-3">
             <Checkbox bind:checked={task.completed} />
-            <span>{task.name}</span>
+            <a href="/tasks/{task.id}">{task.name}</a>
           </div>
           <div class="flex items-center gap-x-2">
             <div
@@ -101,7 +104,7 @@
             </div>
           </div>
         </div>
-      </TaskContextMenu>
+      </TaskListMenu>
     </div>
   {/each}
 </section>

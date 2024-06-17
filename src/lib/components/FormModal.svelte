@@ -12,6 +12,7 @@
   export let open: boolean;
   export let id: string;
   export let text: string;
+  export let type: 'task' | 'tasklist';
 
   const form = superForm(defaults(zod(formSchema)), {
     id: id,
@@ -33,7 +34,7 @@
 <Dialog.Root bind:open>
   <Dialog.Content class="sm:max-w-md">
     <Dialog.Header>
-      <Dialog.Title>{text} Task</Dialog.Title>
+      <Dialog.Title>{text} {type}</Dialog.Title>
     </Dialog.Header>
     <form method="POST" use:enhance>
       <Form.Field {form} name="name">
@@ -41,7 +42,7 @@
           <Form.Label>Name</Form.Label>
           <Input {...attrs} bind:value={$formData.name} />
         </Form.Control>
-        <Form.Description>This is your task name.</Form.Description>
+        <Form.Description>This is your {type} name.</Form.Description>
         <Form.FieldErrors />
       </Form.Field>
       <Form.Button>{text}</Form.Button>

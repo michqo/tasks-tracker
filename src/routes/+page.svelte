@@ -36,6 +36,7 @@
   bind:open={formOpen}
   id="create"
   text="Create"
+  type="tasklist"
   on:submit={(event) => $postMutation.mutate(event.detail)}
 />
 

@@ -7,7 +7,7 @@
   import { dragHandle, dragHandleZone, type DndEvent } from 'svelte-dnd-action';
   import { flip } from 'svelte/animate';
   import FormModal from '../FormModal.svelte';
-  import TaskContextMenu from '../TaskContextMenu.svelte';
+  import TaskMenu from '../TaskMenu.svelte';
   import { buttonVariants } from '../ui/button';
 
   const flipDurationMs = 300;
@@ -60,9 +60,10 @@
 </script>
 
 <FormModal
-  bind:open={taskEditOpen}
   id="edit"
   text="Edit"
+  type="task"
+  bind:open={taskEditOpen}
   on:submit={(event) => $editMutation.mutate(event.detail)}
 />
 
@@ -73,7 +74,7 @@
 >
   {#each data as task (task.id)}
     <div animate:flip={{ duration: flipDurationMs }}>
-      <TaskContextMenu
+      <TaskMenu
         bind:checked={task.completed}
         on:delete={() => $deleteMutation.mutate(task.id)}
         on:edit={() => onEdit(task.id)}
@@ -101,7 +102,7 @@
             </div>
           </div>
         </div>
-      </TaskContextMenu>
+      </TaskMenu>
     </div>
   {/each}
 </section>
