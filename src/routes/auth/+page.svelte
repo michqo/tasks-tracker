@@ -5,19 +5,34 @@
   import { api } from '$lib/utils/api';
   import { type LoginSchema } from '$lib/utils/schemas';
   import { token } from '$lib/utils/stores';
+  import { createMutation } from '@tanstack/svelte-query';
+  import { toast } from 'svelte-sonner';
 
-  async function onLogin(data: CustomEvent<LoginSchema>) {
-    const res = await api().createJwt(data.detail);
-    $token = res.access;
-    goto('/');
-  }
+  const loginMutation = createMutation({
+    mutationFn: (data: CustomEvent<LoginSchema>) => {
+      return api().createJwt(data.detail);
+    },
+    onSuccess: (data) => {
+      toast.success('Successfully logged in.');
+      $token = data.access;
+      goto('/');
+    },
+    onError: () => {
+      toast.error('Incorrect username or password.');
+    }
+  });
 
-  async function onRegister(data: CustomEvent<LoginSchema>) {
-    await api().postUser(data.detail);
-    const res = await api().createJwt(data.detail);
-    $token = res.access;
-    goto('/');
-  }
+  const registerMutation = createMutation({
+    mutationFn: (data: CustomEvent<LoginSchema>) => {
+      return api().postUser(data.detail);
+    },
+    onSuccess: () => {
+      toast.success('Successfully created account.');
+    },
+    onError: () => {
+      toast.error('Check for errors in the form.');
+    }
+  });
 </script>
 
 <main class="grid h-screen items-center justify-center">
@@ -27,10 +42,10 @@
       <Tabs.Trigger value="login">Log In</Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="register">
-      <FormCard id="register" on:submit={onRegister} />
+      <FormCard id="register" on:submit={$registerMutation.mutate} />
     </Tabs.Content>
     <Tabs.Content value="login">
-      <FormCard id="login" on:submit={onLogin} />
+      <FormCard id="login" on:submit={$loginMutation.mutate} />
     </Tabs.Content>
   </Tabs.Root>
 </main>
