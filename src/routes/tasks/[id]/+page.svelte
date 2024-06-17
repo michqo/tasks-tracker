@@ -13,7 +13,7 @@
   let formOpen = false;
 
   const query = createQuery({
-    queryKey: ['tasks'],
+    queryKey: ['tasks', $page.params.id],
     queryFn: () => api().getTasks($page.params.id),
     select: sortTasks
   });
@@ -23,7 +23,7 @@
       return api().postTask({ task }, $page.params.id);
     },
     onSuccess: () => {
-      return client.invalidateQueries({ queryKey: ['tasks'] });
+      return client.invalidateQueries({ queryKey: ['tasks', $page.params.id] });
     }
   });
 
