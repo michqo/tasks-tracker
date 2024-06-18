@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { invalidateAll } from '$app/navigation';
+  import { goto } from '$app/navigation';
   import FormModal from '$lib/components/FormModal.svelte';
   import ThemeToggle from '$lib/components/ThemeToggle.svelte';
   import Button from '$lib/components/ui/button/button.svelte';
@@ -28,7 +28,7 @@
 
   function logOut() {
     $token = '';
-    invalidateAll();
+    goto('/auth');
   }
 </script>
 
@@ -42,14 +42,12 @@
 
 <div class="p-4">
   <div class="mb-8 flex items-center justify-between">
-    <h1 class="text-2xl font-bold">Tasks</h1>
+    <h1 class="text-2xl font-bold">Tasklists</h1>
     <div class="flex gap-x-2">
       <ThemeToggle />
       <Button variant="secondary" on:click={logOut}>Log out</Button>
       <Button on:click={() => (formOpen = true)}>Create New</Button>
     </div>
   </div>
-  {#if $query.data}
-    <TaskLists data={$query.data} />
-  {/if}
+  <TaskLists data={$query.data ? $query.data : []} />
 </div>
