@@ -54,6 +54,33 @@ const api = (customFetch = fetch) => ({
       throw response.status;
     }
   },
+  shareTaskList: async (id: number): Promise<string> => {
+    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklist/share/`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        tasklist: id,
+        role: 'Editor'
+      })
+    });
+    if (!response.ok) {
+      throw response.status;
+    }
+    return (await response.json()).link;
+  },
+  joinTaskList: async (token: string) => {
+    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklist/join/${token}/`, {
+      headers: {
+        ...headers
+      }
+    });
+    if (!response.ok) {
+      throw response.status;
+    }
+  },
   getTasks: async (id: string): Promise<Task[]> => {
     const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/${id}`, {
       headers
@@ -143,4 +170,4 @@ const api = (customFetch = fetch) => ({
 const sortTasks = (tasks: Task[]) => tasks.sort((a, b) => a.position - b.position);
 const sortTaskLists = (tasks: TaskList[]) => tasks.sort((a, b) => a.position - b.position);
 
-export { api, sortTasks, sortTaskLists };
+export { api, sortTaskLists, sortTasks };

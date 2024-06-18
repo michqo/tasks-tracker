@@ -6,6 +6,7 @@
   import { createMutation } from '@tanstack/svelte-query';
   import { GripVertical } from 'lucide-svelte';
   import { dragHandle, dragHandleZone, type DndEvent } from 'svelte-dnd-action';
+  import { toast } from 'svelte-sonner';
   import { flip } from 'svelte/animate';
   import FormModal from '../FormModal.svelte';
   import TaskListMenu from '../TaskListMenu.svelte';
@@ -18,6 +19,17 @@
   let editId = -1;
   let editName = '';
   let editOpen = false;
+
+  const shareMutation = createMutation({
+    mutationFn: (id: number) => {
+      return api().shareTaskList(id);
+    },
+    onSuccess: (data) => {
+      const url = `${window.location.origin}/join/${data}`;
+      navigator.clipboard.writeText(url);
+      toast.success('Link for sharing tasklist copied to clipboard.');
+    }
+  });
 
   const deleteMutation = createMutation({
     mutationFn: (id: number) => {
@@ -78,6 +90,7 @@
       <TaskListMenu
         name={task.name}
         on:open={() => goto(`/tasks/${task.id}`)}
+        on:share={() => $shareMutation.mutate(task.id)}
         on:delete={() => $deleteMutation.mutate(task.id)}
         on:edit={() => onEdit(task.id)}
       >

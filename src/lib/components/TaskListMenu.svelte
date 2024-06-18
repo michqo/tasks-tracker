@@ -1,6 +1,6 @@
 <script lang="ts">
   import * as ContextMenu from '$lib/components/ui/context-menu/index.js';
-  import { Pencil, Trash, ExternalLink } from 'lucide-svelte';
+  import { Pencil, Trash, ExternalLink, Share2 } from 'lucide-svelte';
   import { createEventDispatcher } from 'svelte';
 
   export let name: string;
@@ -19,6 +19,10 @@
       <ContextMenu.Item on:click={() => dispatch('open')}>
         <ExternalLink class="mr-2 h-4 w-4" />
         <span>Open</span>
+      </ContextMenu.Item>
+      <ContextMenu.Item on:click={() => dispatch('share')}>
+        <Share2 class="mr-2 h-4 w-4" />
+        <span>Share</span>
       </ContextMenu.Item>
       <ContextMenu.Item on:click={() => dispatch('edit')}>
         <Pencil class="mr-2 h-4 w-4" />
