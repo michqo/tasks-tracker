@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
   import FormCard from '$lib/components/FormCard.svelte';
   import * as Tabs from '$lib/components/ui/tabs';
   import { api } from '$lib/utils/api';
@@ -15,7 +14,7 @@
     onSuccess: (data) => {
       toast.success('Successfully logged in.');
       $token = data.access;
-      goto('/');
+      window.location.replace('/');
     },
     onError: () => {
       toast.error('Incorrect username or password.');
