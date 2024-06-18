@@ -37,6 +37,13 @@
     }
   });
 
+  const checkboxMutation = createMutation({
+    mutationFn: (idx: number) => {
+      const item = data[idx];
+      return api().updateTask(item.id, { task: item.task, completed: item.completed });
+    }
+  });
+
   async function updatePositions() {
     const positions = data.reduce((acc: Record<string, number>, task, idx) => {
       acc[task.id] = idx;
@@ -72,7 +79,7 @@
   on:consider={handleDrag}
   on:finalize={handleSort}
 >
-  {#each data as task (task.id)}
+  {#each data as task, idx (task.id)}
     <div animate:flip={{ duration: flipDurationMs }}>
       <TaskMenu
         bind:checked={task.completed}
@@ -85,7 +92,10 @@
             : ''}"
         >
           <div class="flex items-center gap-x-3">
-            <Checkbox bind:checked={task.completed} />
+            <Checkbox
+              bind:checked={task.completed}
+              on:click={() => $checkboxMutation.mutate(idx)}
+            />
             <span>{task.task}</span>
           </div>
           <div class="flex items-center gap-x-2">

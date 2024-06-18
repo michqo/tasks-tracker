@@ -5,12 +5,13 @@
 interface Task {
   id: number;
   task: string;
+  completed_at: string;
   completed: boolean;
   created_at: Date;
   position: number;
 }
 
-type PostTask = Pick<Task, 'task'>;
+type PostTask = Partial<Task>;
 
 interface TaskList {
   id: number;

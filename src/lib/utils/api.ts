@@ -167,7 +167,10 @@ const api = (customFetch = fetch) => ({
   }
 });
 
-const sortTasks = (tasks: Task[]) => tasks.sort((a, b) => a.position - b.position);
+const transformTasks = (tasks: Task[]): Task[] =>
+  tasks
+    .map((task) => ({ ...task, completed: task.completed_at != null }))
+    .sort((a, b) => a.position - b.position);
 const sortTaskLists = (tasks: TaskList[]) => tasks.sort((a, b) => a.position - b.position);
 
-export { api, sortTaskLists, sortTasks };
+export { api, sortTaskLists, transformTasks };
