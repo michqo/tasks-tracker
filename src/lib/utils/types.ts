@@ -17,11 +17,12 @@ interface TaskList {
   id: number;
   name: string;
   created_at: Date;
+  completed_at: string;
   completed: true;
   position: number;
 }
 
-type PostTaskList = Pick<TaskList, 'name'>;
+type PostTaskList = Partial<TaskList>;
 
 interface ActionResponse {
   res: string;
