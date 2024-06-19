@@ -18,7 +18,7 @@ interface TaskList {
   name: string;
   created_at: Date;
   completed_at: string;
-  completed: true;
+  completed: boolean;
   position: number;
 }
 
