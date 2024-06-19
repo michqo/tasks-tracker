@@ -78,7 +78,7 @@ const api = (customFetch = fetch) => ({
       }
     });
     if (!response.ok) {
-      throw response.status;
+      throw await response.json();
     }
   },
   getTasks: async (id: string): Promise<Task[]> => {

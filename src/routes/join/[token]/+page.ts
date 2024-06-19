@@ -5,7 +5,9 @@ import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ fetch, params }) => {
   if (browser) {
-    await api(fetch).joinTaskList(params.token);
+    try {
+      await api(fetch).joinTaskList(params.token);
+    } catch {}
     redirect(308, '/');
   }
 };
