@@ -32,6 +32,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Tasklists</title>
+</svelte:head>
+
 <FormModal
   bind:open={formOpen}
   id="create"

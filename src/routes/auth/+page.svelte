@@ -34,6 +34,10 @@
   });
 </script>
 
+<svelte:head>
+  <title>Tasks Authentication</title>
+</svelte:head>
+
 <main class="grid h-screen items-center justify-center">
   <Tabs.Root value="register" class="w-[400px]">
     <Tabs.List class="grid w-full grid-cols-2">

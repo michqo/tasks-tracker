@@ -33,6 +33,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Tasks</title>
+</svelte:head>
+
 <FormModal
   bind:open={formOpen}
   id="create"
