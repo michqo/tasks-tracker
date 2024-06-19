@@ -4,7 +4,7 @@
   import ThemeToggle from '$lib/components/ThemeToggle.svelte';
   import Button from '$lib/components/ui/button/button.svelte';
   import TaskLists from '$lib/components/views/TaskLists.svelte';
-  import { api, transformTaskLists } from '$lib/utils/api';
+  import { api, transformItems } from '$lib/utils/api';
   import { token } from '$lib/utils/stores';
   import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
 
@@ -14,7 +14,7 @@
   const query = createQuery({
     queryKey: ['taskLists'],
     queryFn: () => api().getTaskLists(),
-    select: transformTaskLists
+    select: transformItems
   });
 
   const postMutation = createMutation({

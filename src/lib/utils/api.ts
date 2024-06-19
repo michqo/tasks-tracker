@@ -167,14 +167,15 @@ const api = (customFetch = fetch) => ({
   }
 });
 
-const transformTasks = (tasks: Task[]): Task[] =>
-  tasks
-    .map((task) => ({ ...task, completed: task.completed_at != null }))
+interface Transformable {
+  completed: boolean;
+  completed_at: string;
+  position: number;
+}
+
+const transformItems = <T extends Transformable>(items: T[]): T[] =>
+  items
+    .map((item) => ({ ...item, completed: item.completed_at != null }))
     .sort((a, b) => a.position - b.position);
 
-const transformTaskLists = (lists: TaskList[]): TaskList[] =>
-  lists
-    .map((task) => ({ ...task, completed: task.completed_at != null}))
-    .sort((a, b) => a.position - b.position);
-
-export { api, transformTaskLists, transformTasks };
+export { api, transformItems };
