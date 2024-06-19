@@ -22,6 +22,12 @@ interface TaskList {
   position: number;
 }
 
+interface Transformable {
+  completed: boolean;
+  completed_at: string;
+  position: number;
+}
+
 type PostTaskList = Partial<TaskList>;
 
 interface ActionResponse {
@@ -33,4 +39,12 @@ interface LoginResponse {
   access: string;
 }
 
-export type { ActionResponse, LoginResponse, PostTask, PostTaskList, Task, TaskList };
+export type {
+  ActionResponse,
+  LoginResponse,
+  PostTask,
+  PostTaskList,
+  Task,
+  TaskList,
+  Transformable
+};

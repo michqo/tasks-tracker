@@ -35,6 +35,9 @@
     mutationFn: (id: number) => {
       data = data.filter((task) => task.id !== id);
       return api().deleteTaskList(id);
+    },
+    onSuccess: () => {
+      toast.success('Tasklist successfully deleted.');
     }
   });
 
@@ -107,8 +110,8 @@
             : ''}"
         >
           <div class="flex items-center gap-x-3">
-            <Checkbox 
-              bind:checked={task.completed} 
+            <Checkbox
+              bind:checked={task.completed}
               on:click={() => $checkboxMutation.mutate(idx)}
             />
             <a href="/tasks/{task.id}">{task.name}</a>

@@ -5,6 +5,7 @@
   import { createMutation } from '@tanstack/svelte-query';
   import { GripVertical } from 'lucide-svelte';
   import { dragHandle, dragHandleZone, type DndEvent } from 'svelte-dnd-action';
+  import { toast } from 'svelte-sonner';
   import { flip } from 'svelte/animate';
   import FormModal from '../FormModal.svelte';
   import TaskMenu from '../TaskMenu.svelte';
@@ -22,6 +23,9 @@
     mutationFn: (id: number) => {
       data = data.filter((task) => task.id !== id);
       return api().deleteTask(id);
+    },
+    onSuccess: () => {
+      toast.success('Task successfully deleted.');
     }
   });
 

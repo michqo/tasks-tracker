@@ -2,7 +2,7 @@ import { PUBLIC_API_URL } from '$env/static/public';
 import { get } from 'svelte/store';
 import type { LoginSchema } from './schemas';
 import { token } from './stores';
-import type { LoginResponse, PostTask, PostTaskList, Task, TaskList } from './types';
+import type { LoginResponse, PostTask, PostTaskList, Task, TaskList, Transformable } from './types';
 
 const headers = {
   Authorization: `JWT ${get(token)}`
@@ -166,12 +166,6 @@ const api = (customFetch = fetch) => ({
     }
   }
 });
-
-interface Transformable {
-  completed: boolean;
-  completed_at: string;
-  position: number;
-}
 
 const transformItems = <T extends Transformable>(items: T[]): T[] =>
   items
