@@ -8,7 +8,6 @@
   import { api, transformItems } from '$lib/utils/api';
   import { token } from '$lib/utils/stores';
   import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
-  import { date } from 'zod';
 
   const client = useQueryClient();
   let formOpen = false;
@@ -22,7 +21,7 @@
   const userQuery = createQuery({
     queryKey: ['usersMe'],
     queryFn: () => api().getUsersMe()
-  })
+  });
 
   const postMutation = createMutation({
     mutationFn: (task: string) => {
