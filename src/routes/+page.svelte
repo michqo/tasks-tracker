@@ -1,9 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import FormModal from '$lib/components/FormModal.svelte';
-  import ThemeToggle from '$lib/components/ThemeToggle.svelte';
-  import Button from '$lib/components/ui/button/button.svelte';
-  import TaskLists from '$lib/components/views/TaskLists.svelte';
+  import Main from '$lib/components/Main.svelte';
   import { api, transformItems } from '$lib/utils/api';
   import { token } from '$lib/utils/stores';
   import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
@@ -11,10 +9,15 @@
   const client = useQueryClient();
   let formOpen = false;
 
-  const query = createQuery({
+  const dataQuery = createQuery({
     queryKey: ['taskLists'],
     queryFn: () => api().getTaskLists(),
     select: transformItems
+  });
+
+  const userQuery = createQuery({
+    queryKey: ['usersMe'],
+    queryFn: () => api().getUsersMe()
   });
 
   const postMutation = createMutation({
@@ -44,14 +47,11 @@
   on:submit={(event) => $postMutation.mutate(event.detail)}
 />
 
-<div class="p-4">
-  <div class="mb-8 flex items-center justify-between">
-    <h1 class="text-2xl font-bold">Tasklists</h1>
-    <div class="flex gap-x-2">
-      <ThemeToggle />
-      <Button variant="secondary" on:click={logOut}>Log out</Button>
-      <Button on:click={() => (formOpen = true)}>Create New</Button>
-    </div>
-  </div>
-  <TaskLists data={$query.data ? $query.data : []} />
-</div>
+<Main
+  on:logout={logOut}
+  bind:formOpen
+  type="tasklists"
+  query={dataQuery}
+  username={$userQuery.data ? $userQuery.data : ''}
+  title="Tasklists"
+/>

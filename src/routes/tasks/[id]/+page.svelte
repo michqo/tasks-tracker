@@ -2,6 +2,7 @@
   import { invalidateAll } from '$app/navigation';
   import { page } from '$app/stores';
   import FormModal from '$lib/components/FormModal.svelte';
+  import Main from '$lib/components/Main.svelte';
   import ThemeToggle from '$lib/components/ThemeToggle.svelte';
   import Button from '$lib/components/ui/button/button.svelte';
   import Tasks from '$lib/components/views/Tasks.svelte';
@@ -12,7 +13,7 @@
   const client = useQueryClient();
   let formOpen = false;
 
-  const tasksQuery = createQuery({
+  const dataQuery = createQuery({
     queryKey: ['tasks', $page.params.id],
     queryFn: () => api().getTasks($page.params.id),
     select: transformItems
@@ -50,17 +51,11 @@
   on:submit={(event) => $postMutation.mutate(event.detail)}
 />
 
-<div class="p-4">
-  <div class="mb-8 flex items-center justify-between">
-    <h1 class="text-2xl font-bold">Tasks</h1>
-    <div class="flex gap-x-2">
-      <ThemeToggle />
-      <Button variant="secondary" on:click={logOut}>Log out</Button>
-      <p>{$userQuery.data ? $userQuery.data : ''}</p>
-      <Button on:click={() => (formOpen = true)}>Create New</Button>
-    </div>
-  </div>
-  {#if $tasksQuery.data}
-    <Tasks data={$tasksQuery.data} />
-  {/if}
-</div>
+<Main
+  on:logout={logOut}
+  bind:formOpen
+  type="tasks"
+  query={dataQuery}
+  username={$userQuery.data ? $userQuery.data : ''}
+  title="Tasks"
+/>
