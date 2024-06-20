@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { persisted } from 'svelte-persisted-store'
+import { persisted } from 'svelte-persisted-store';
 
 /**
  * Create a readable store for the user's authentication status

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Toaster } from "$lib/components/ui/sonner";
+  import { Toaster } from '$lib/components/ui/sonner';
   import { QueryClientProvider } from '@tanstack/svelte-query';
   import { ModeWatcher } from 'mode-watcher';
   import '../app.pcss';
