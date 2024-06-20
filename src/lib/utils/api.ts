@@ -9,6 +9,15 @@ const headers = {
 };
 
 const api = (customFetch = fetch) => ({
+  getUsersMe: async (): Promise<string> => {
+    const response = await customFetch(`${PUBLIC_API_URL}/auth/users/me/`, {
+      headers
+    });
+    if (!response.ok) {
+      throw response.status;
+    }
+    return (await response.json()).username;
+  },
   getTaskLists: async (): Promise<TaskList[]> => {
     const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists`, {
       headers
@@ -16,8 +25,7 @@ const api = (customFetch = fetch) => ({
     if (!response.ok) {
       throw response.status;
     }
-    const data = (await response.json()).results;
-    return data;
+    return (await response.json()).results;
   },
   postTaskList: async (task: PostTaskList) => {
     const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/`, {

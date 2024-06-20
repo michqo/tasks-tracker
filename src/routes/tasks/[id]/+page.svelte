@@ -8,15 +8,21 @@
   import { api, transformItems } from '$lib/utils/api';
   import { token } from '$lib/utils/stores';
   import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
+  import { date } from 'zod';
 
   const client = useQueryClient();
   let formOpen = false;
 
-  const query = createQuery({
+  const tasksQuery = createQuery({
     queryKey: ['tasks', $page.params.id],
     queryFn: () => api().getTasks($page.params.id),
     select: transformItems
   });
+
+  const userQuery = createQuery({
+    queryKey: ['usersMe'],
+    queryFn: () => api().getUsersMe()
+  })
 
   const postMutation = createMutation({
     mutationFn: (task: string) => {
@@ -51,10 +57,11 @@
     <div class="flex gap-x-2">
       <ThemeToggle />
       <Button variant="secondary" on:click={logOut}>Log out</Button>
+      <p>{$userQuery.data ? $userQuery.data : ''}</p>
       <Button on:click={() => (formOpen = true)}>Create New</Button>
     </div>
   </div>
-  {#if $query.data}
-    <Tasks data={$query.data} />
+  {#if $tasksQuery.data}
+    <Tasks data={$tasksQuery.data} />
   {/if}
 </div>
