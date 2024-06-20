@@ -19,7 +19,6 @@ export const load: LayoutLoad = ({ url }) => {
       queries: {
         enabled: browser,
         refetchOnWindowFocus: false,
-        refetchOnMount: false
       }
     }
   });
