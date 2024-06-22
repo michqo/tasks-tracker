@@ -2,28 +2,23 @@
   import * as Card from '$lib/components/ui/card';
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input';
-  import { loginSchema } from '$lib/utils/schemas';
+  import { loginSchema, type LoginSchema } from '$lib/utils/schemas';
   import { createEventDispatcher } from 'svelte';
-  import { defaults, superForm } from 'sveltekit-superforms';
-  import { zod, zodClient } from 'sveltekit-superforms/adapters';
+  import { superForm, type SuperValidated } from 'sveltekit-superforms';
+  import { zodClient } from 'sveltekit-superforms/adapters';
 
   export let id: 'login' | 'register';
+  export let data: SuperValidated<LoginSchema>;
 
   const actionWord = id == 'login' ? 'Log in' : 'Register';
 
   const dispatch = createEventDispatcher();
 
-  const form = superForm(defaults(zod(loginSchema)), {
+  const form = superForm(data, {
     id: id,
-    SPA: true,
     validators: zodClient(loginSchema),
-    onUpdate: async ({ form: f }) => {
-      if (f.valid) {
-        dispatch('submit', f.data);
-      } else {
-        console.error('Please fix the errors in the form.');
-      }
-    }
+    onUpdated: () => dispatch('success'),
+    onError: () => dispatch('failed')
   });
 
   const { form: formData, enhance } = form;

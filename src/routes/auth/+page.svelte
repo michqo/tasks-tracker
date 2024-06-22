@@ -6,6 +6,9 @@
   import { token } from '$lib/utils/stores';
   import { createMutation } from '@tanstack/svelte-query';
   import { toast } from 'svelte-sonner';
+  import type { PageData } from './$types';
+
+  export let data: PageData;
 
   const loginMutation = createMutation({
     mutationFn: (data: CustomEvent<LoginSchema>) => {
@@ -45,10 +48,15 @@
       <Tabs.Trigger value="login">Log In</Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="register">
-      <FormCard id="register" on:submit={$registerMutation.mutate} />
+      <FormCard id="register" data={data.form} />
     </Tabs.Content>
     <Tabs.Content value="login">
-      <FormCard id="login" on:submit={$loginMutation.mutate} />
+      <FormCard
+        on:success={() => toast.success('Successfully logged in.')}
+        on:failed={() => toast.error('Incorrect username or password.')}
+        id="login"
+        data={data.form}
+      />
     </Tabs.Content>
   </Tabs.Root>
 </main>
