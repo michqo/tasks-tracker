@@ -17,7 +17,13 @@
   const form = superForm(data, {
     id: id,
     validators: zodClient(loginSchema),
-    onUpdated: () => dispatch('success'),
+    onUpdated: ({ form: f }) => {
+      if (f.valid) {
+        dispatch('success');
+      } else {
+        dispatch('failed');
+      }
+    },
     onError: () => dispatch('failed')
   });
 

@@ -147,7 +147,7 @@ const api = (customFetch = fetch) => ({
     }
     return response.json();
   },
-  postUser: async (credentials: LoginSchema): Promise<number> => {
+  postUser: async (credentials: LoginSchema): Promise<any> => {
     const response = await customFetch(`${PUBLIC_API_URL}/auth/users/`, {
       method: 'POST',
       headers: {
@@ -156,9 +156,9 @@ const api = (customFetch = fetch) => ({
       body: JSON.stringify(credentials)
     });
     if (!response.ok) {
-      throw response.status;
+      throw await response.json();
     }
-    return response.status;
+    return await response.json();
   },
   putPositions: async (positions: Record<string, number>, type: 'tasks' | 'tasklists') => {
     const response = await customFetch(`${PUBLIC_API_URL}/api/positions/${type}/`, {
