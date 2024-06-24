@@ -1,14 +1,8 @@
 import { PUBLIC_API_URL } from '$env/static/public';
-import { get } from 'svelte/store';
 import type { LoginSchema } from './schemas';
-import { token } from './stores';
 import type { LoginResponse, PostTask, PostTaskList, Task, TaskList, Transformable } from './types';
 
-const headers = {
-  Authorization: `JWT ${get(token)}`
-};
-
-const api = (customFetch = fetch) => ({
+const api = (headers?: HeadersInit, customFetch = fetch) => ({
   getUsersMe: async (): Promise<string> => {
     const response = await customFetch(`${PUBLIC_API_URL}/auth/users/me/`, {
       headers

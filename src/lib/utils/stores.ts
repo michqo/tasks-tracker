@@ -1,5 +1,5 @@
-import { writable } from 'svelte/store';
-import { persisted } from 'svelte-persisted-store';
+import { writable, type Writable } from 'svelte/store';
+import type { api } from './api';
 
 /**
  * Create a readable store for the user's authentication status
@@ -11,9 +11,6 @@ const isAuthenticated = writable(false);
  */
 const settings = writable({});
 
-/**
- * Create a persisted store for JWT
- */
-const token = persisted('token', '');
+const fetcher: Writable<typeof api> = writable();
 
-export { isAuthenticated, settings, token };
+export { isAuthenticated, settings, fetcher };

@@ -7,7 +7,6 @@
   import Button from '$lib/components/ui/button/button.svelte';
   import Tasks from '$lib/components/views/Tasks.svelte';
   import { api, transformItems } from '$lib/utils/api';
-  import { token } from '$lib/utils/stores';
   import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
 
   const client = useQueryClient();
@@ -34,7 +33,6 @@
   });
 
   function logOut() {
-    $token = '';
     invalidateAll();
   }
 </script>

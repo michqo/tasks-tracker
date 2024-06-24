@@ -1,19 +1,8 @@
 import { browser } from '$app/environment';
-import { token } from '$lib/utils/stores';
-import { redirect } from '@sveltejs/kit';
 import { QueryClient } from '@tanstack/svelte-query';
-import { get } from 'svelte/store';
 import type { LayoutLoad } from './$types';
 
-export const load: LayoutLoad = ({ url }) => {
-  if (browser) {
-    const jwt = get(token);
-    if (jwt == '' && url.pathname != '/auth') {
-      redirect(307, '/auth');
-    } else if (jwt != '' && url.pathname == '/auth') {
-      redirect(308, '/');
-    }
-  }
+export const load: LayoutLoad = ({ data }) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -22,5 +11,7 @@ export const load: LayoutLoad = ({ url }) => {
       }
     }
   });
-  return { queryClient };
+
+  const accessToken = data.accessToken;
+  return { queryClient, accessToken };
 };
