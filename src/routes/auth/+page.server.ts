@@ -4,6 +4,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import type { Actions, PageServerLoad } from './$types';
 import { api } from '$lib/utils/api';
 import { error } from '@sveltejs/kit';
+import type { PostUserErrorResponse } from '$lib/utils/types';
 
 export const load = (async () => {
   return {
@@ -34,9 +35,13 @@ export const actions = {
       case 'register':
         try {
           await api(fetch).postUser(form.data);
-        } catch (e) {
-          for (const field in e) {
-            setError(form, field, e[field]);
+        } catch (error) {
+          const e = error as PostUserErrorResponse;
+          if (e.username) {
+            setError(form, 'username', e.username);
+          }
+          if (e.password) {
+            setError(form, 'password', e.password);
           }
         }
         break;

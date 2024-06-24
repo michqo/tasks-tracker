@@ -39,11 +39,17 @@ interface LoginResponse {
   access: string;
 }
 
+interface PostUserErrorResponse {
+  username?: string[];
+  password?: string[];
+}
+
 export type {
   ActionResponse,
   LoginResponse,
   PostTask,
   PostTaskList,
+  PostUserErrorResponse,
   Task,
   TaskList,
   Transformable
