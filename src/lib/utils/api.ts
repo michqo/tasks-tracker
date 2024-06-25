@@ -2,7 +2,7 @@ import { PUBLIC_API_URL } from '$env/static/public';
 import type { LoginSchema } from './schemas';
 import type { LoginResponse, PostTask, PostTaskList, Task, TaskList, Transformable } from './types';
 
-const api = (headers?: HeadersInit, customFetch = fetch) => ({
+const api = (customFetch = fetch, headers?: HeadersInit) => ({
   getUsersMe: async (): Promise<string> => {
     const response = await customFetch(`${PUBLIC_API_URL}/auth/users/me/`, {
       headers
