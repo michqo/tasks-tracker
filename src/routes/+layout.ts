@@ -16,10 +16,6 @@ export const load: LayoutLoad = async ({ data, fetch }) => {
   const accessToken = data.accessToken;
   if (accessToken) {
     setAuthHeaders(accessToken);
-    await queryClient.prefetchQuery({
-      queryKey: ['usersMe'],
-      queryFn: () => api().getUsersMe()
-    });
     return { queryClient, accessToken };
   }
   return { queryClient };
