@@ -1,5 +1,4 @@
-import { writable, type Writable } from 'svelte/store';
-import type { api } from './api';
+import { writable } from 'svelte/store';
 
 /**
  * Create a readable store for the user's authentication status
@@ -11,6 +10,4 @@ const isAuthenticated = writable(false);
  */
 const settings = writable({});
 
-const fetcher: Writable<typeof api> = writable();
-
-export { isAuthenticated, settings, fetcher };
+export { isAuthenticated, settings };

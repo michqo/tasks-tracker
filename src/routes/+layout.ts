@@ -1,7 +1,7 @@
 import { browser } from '$app/environment';
+import { api, setAuthHeaders } from '$lib/utils/api';
 import { QueryClient } from '@tanstack/svelte-query';
 import type { LayoutLoad } from './$types';
-import { api } from '$lib/utils/api';
 
 export const load: LayoutLoad = async ({ data, fetch }) => {
   const queryClient = new QueryClient({
@@ -15,11 +15,12 @@ export const load: LayoutLoad = async ({ data, fetch }) => {
 
   const accessToken = data.accessToken;
   if (accessToken) {
-    console.log(accessToken);
-    const user = await api(fetch, {
-      Authorization: `JWT ${accessToken}`
-    }).getUsersMe();
-    return { queryClient, accessToken, user };
+    setAuthHeaders(accessToken);
+    await queryClient.prefetchQuery({
+      queryKey: ['usersMe'],
+      queryFn: () => api().getUsersMe()
+    });
+    return { queryClient, accessToken };
   }
   return { queryClient };
 };

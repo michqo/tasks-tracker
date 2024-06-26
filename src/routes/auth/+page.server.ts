@@ -2,7 +2,7 @@ import { loginSchema } from '$lib/utils/schemas';
 import { fail, setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { Actions, PageServerLoad } from './$types';
-import { api } from '$lib/utils/api';
+import { api, authApi } from '$lib/utils/api';
 import { error } from '@sveltejs/kit';
 import type { PostUserErrorResponse } from '$lib/utils/types';
 
@@ -25,7 +25,7 @@ export const actions = {
     switch (form.id) {
       case 'login':
         try {
-          const res = await api(fetch).createJwt(form.data);
+          const res = await authApi(fetch).createJwt(form.data);
           cookies.set('access_token', res.access, { path: '/' });
           cookies.set('refresh_token', res.refresh, { path: '/' });
         } catch {
@@ -34,7 +34,7 @@ export const actions = {
         break;
       case 'register':
         try {
-          await api(fetch).postUser(form.data);
+          await authApi(fetch).postUser(form.data);
         } catch (error) {
           const e = error as PostUserErrorResponse;
           if (e.username) {
