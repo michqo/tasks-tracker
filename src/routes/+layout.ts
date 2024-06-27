@@ -3,7 +3,7 @@ import { api, setAuthHeaders } from '$lib/utils/api';
 import { QueryClient } from '@tanstack/svelte-query';
 import type { LayoutLoad } from './$types';
 
-export const load: LayoutLoad = async ({ data, fetch }) => {
+export const load: LayoutLoad = async ({ data }) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
