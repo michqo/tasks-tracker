@@ -1,11 +1,8 @@
 <script lang="ts">
-  import { invalidateAll } from '$app/navigation';
+  import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import FormModal from '$lib/components/FormModal.svelte';
   import Main from '$lib/components/Main.svelte';
-  import ThemeToggle from '$lib/components/ThemeToggle.svelte';
-  import Button from '$lib/components/ui/button/button.svelte';
-  import Tasks from '$lib/components/views/Tasks.svelte';
   import { api, transformItems } from '$lib/utils/api';
   import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
 
@@ -33,7 +30,7 @@
   });
 
   function logOut() {
-    invalidateAll();
+    goto('/logout');
   }
 </script>
 

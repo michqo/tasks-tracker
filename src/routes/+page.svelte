@@ -29,7 +29,7 @@
   });
 
   function logOut() {
-    goto('/auth');
+    goto('/logout');
   }
 </script>
 
