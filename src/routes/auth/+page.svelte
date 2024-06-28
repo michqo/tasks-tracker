@@ -1,37 +1,10 @@
 <script lang="ts">
   import FormCard from '$lib/components/FormCard.svelte';
   import * as Tabs from '$lib/components/ui/tabs';
-  import { api } from '$lib/utils/api';
-  import { type LoginSchema } from '$lib/utils/schemas';
-  import { token } from '$lib/utils/stores';
-  import { createMutation } from '@tanstack/svelte-query';
   import { toast } from 'svelte-sonner';
+  import type { PageData } from './$types';
 
-  const loginMutation = createMutation({
-    mutationFn: (data: CustomEvent<LoginSchema>) => {
-      return api().createJwt(data.detail);
-    },
-    onSuccess: (data) => {
-      toast.success('Successfully logged in.');
-      $token = data.access;
-      window.location.replace('/');
-    },
-    onError: () => {
-      toast.error('Incorrect username or password.');
-    }
-  });
-
-  const registerMutation = createMutation({
-    mutationFn: (data: CustomEvent<LoginSchema>) => {
-      return api().postUser(data.detail);
-    },
-    onSuccess: () => {
-      toast.success('Successfully created account.');
-    },
-    onError: () => {
-      toast.error('Check for errors in the form.');
-    }
-  });
+  export let data: PageData;
 </script>
 
 <svelte:head>
@@ -45,10 +18,20 @@
       <Tabs.Trigger value="login">Log In</Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="register">
-      <FormCard id="register" on:submit={$registerMutation.mutate} />
+      <FormCard
+        on:success={() => toast.success('Successfully created account.')}
+        on:failed={() => toast.error('Check for errors in the form.')}
+        id="register"
+        data={data.form}
+      />
     </Tabs.Content>
     <Tabs.Content value="login">
-      <FormCard id="login" on:submit={$loginMutation.mutate} />
+      <FormCard
+        on:success={() => toast.success('Successfully logged in.')}
+        on:failed={() => toast.error('Incorrect username or password.')}
+        id="login"
+        data={data.form}
+      />
     </Tabs.Content>
   </Tabs.Root>
 </main>

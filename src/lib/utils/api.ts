@@ -1,11 +1,42 @@
 import { PUBLIC_API_URL } from '$env/static/public';
-import { get } from 'svelte/store';
 import type { LoginSchema } from './schemas';
-import { token } from './stores';
 import type { LoginResponse, PostTask, PostTaskList, Task, TaskList, Transformable } from './types';
 
-const headers = {
-  Authorization: `JWT ${get(token)}`
+const authApi = (customFetch = fetch) => ({
+  createJwt: async (credentials: LoginSchema): Promise<LoginResponse> => {
+    const response = await customFetch(`${PUBLIC_API_URL}/auth/jwt/create/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(credentials)
+    });
+    if (!response.ok) {
+      throw response.status;
+    }
+    return response.json();
+  },
+  postUser: async (credentials: LoginSchema): Promise<any> => {
+    const response = await customFetch(`${PUBLIC_API_URL}/auth/users/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(credentials)
+    });
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
+  }
+});
+
+let headers = {};
+
+const setAuthHeaders = (token: string) => {
+  headers = {
+    Authorization: `JWT ${token}`
+  };
 };
 
 const api = (customFetch = fetch) => ({
@@ -134,32 +165,6 @@ const api = (customFetch = fetch) => ({
       throw response.status;
     }
   },
-  createJwt: async (credentials: LoginSchema): Promise<LoginResponse> => {
-    const response = await customFetch(`${PUBLIC_API_URL}/auth/jwt/create/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(credentials)
-    });
-    if (!response.ok) {
-      throw response.status;
-    }
-    return response.json();
-  },
-  postUser: async (credentials: LoginSchema): Promise<number> => {
-    const response = await customFetch(`${PUBLIC_API_URL}/auth/users/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(credentials)
-    });
-    if (!response.ok) {
-      throw response.status;
-    }
-    return response.status;
-  },
   putPositions: async (positions: Record<string, number>, type: 'tasks' | 'tasklists') => {
     const response = await customFetch(`${PUBLIC_API_URL}/api/positions/${type}/`, {
       method: 'PUT',
@@ -180,4 +185,4 @@ const transformItems = <T extends Transformable>(items: T[]): T[] =>
     .map((item) => ({ ...item, completed: item.completed_at != null }))
     .sort((a, b) => a.position - b.position);
 
-export { api, transformItems };
+export { api, authApi, setAuthHeaders, transformItems };
