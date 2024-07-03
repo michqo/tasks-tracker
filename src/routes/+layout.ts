@@ -16,15 +16,23 @@ export const load: LayoutLoad = async ({ data, fetch }) => {
   const accessToken = data.accessToken;
   if (accessToken) {
     setAuthHeaders(accessToken);
-    const tasks = queryClient.prefetchQuery({
+    let user: string;
+    try {
+      user = await api(fetch).getUsersMe();
+    } catch (error) {
+      console.error(error);
+      return { queryClient };
+    }
+    const prefetchedUser = queryClient.prefetchQuery({
+      queryKey: ['usersMe'],
+      queryFn: () => api(fetch).getUsersMe(),
+      initialData: user
+    });
+    const prefetchedTasks = queryClient.prefetchQuery({
       queryKey: ['taskLists'],
       queryFn: () => api(fetch).getTaskLists()
     });
-    const user = queryClient.prefetchQuery({
-      queryKey: ['usersMe'],
-      queryFn: () => api(fetch).getUsersMe()
-    });
-    await Promise.all([tasks, user]);
+    await Promise.all([prefetchedTasks, prefetchedUser]);
     return { queryClient, accessToken };
   }
   return { queryClient };
