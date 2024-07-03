@@ -27,10 +27,6 @@
       return client.invalidateQueries({ queryKey: ['taskLists'] });
     }
   });
-
-  function logOut() {
-    goto('/logout');
-  }
 </script>
 
 <svelte:head>
@@ -46,7 +42,7 @@
 />
 
 <Main
-  on:logout={logOut}
+  on:logout={() => goto('/logout')}
   bind:formOpen
   type="tasklists"
   query={dataQuery}

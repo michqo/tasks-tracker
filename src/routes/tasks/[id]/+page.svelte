@@ -28,10 +28,6 @@
       return client.invalidateQueries({ queryKey: ['tasks', $page.params.id] });
     }
   });
-
-  function logOut() {
-    goto('/logout');
-  }
 </script>
 
 <svelte:head>
@@ -47,7 +43,7 @@
 />
 
 <Main
-  on:logout={logOut}
+  on:logout={() => goto('/logout')}
   bind:formOpen
   type="tasks"
   query={dataQuery}
