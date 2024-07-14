@@ -1,6 +1,14 @@
 import { PUBLIC_API_URL } from '$env/static/public';
 import type { LoginSchema } from './schemas';
-import type { LoginResponse, PostTask, PostTaskList, Task, TaskList, Transformable } from './types';
+import type {
+  LoginResponse,
+  PostTask,
+  PostTaskList,
+  RefreshJWTResponse,
+  Task,
+  TaskList,
+  Transformable
+} from './types';
 
 const authApi = (customFetch = fetch) => ({
   createJwt: async (credentials: LoginSchema): Promise<LoginResponse> => {
@@ -28,6 +36,19 @@ const authApi = (customFetch = fetch) => ({
       throw await response.json();
     }
     return await response.json();
+  },
+  refreshJwt: async (refresh: string): Promise<RefreshJWTResponse> => {
+    const response = await customFetch(`${PUBLIC_API_URL}/auth/jwt/refresh/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ refresh })
+    });
+    if (!response.ok) {
+      throw response.status;
+    }
+    return await response.json();
   }
 });
 
@@ -45,7 +66,7 @@ const api = (customFetch = fetch) => ({
       headers
     });
     if (!response.ok) {
-      throw response.status;
+      throw await response.json();
     }
     return (await response.json()).username;
   },

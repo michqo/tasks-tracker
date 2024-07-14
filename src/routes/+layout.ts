@@ -3,7 +3,7 @@ import { api, setAuthHeaders } from '$lib/utils/api';
 import { QueryClient } from '@tanstack/svelte-query';
 import type { LayoutLoad } from './$types';
 
-export const load: LayoutLoad = async ({ data, fetch }) => {
+export const load: LayoutLoad = async ({ data, fetch, route }) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -16,17 +16,10 @@ export const load: LayoutLoad = async ({ data, fetch }) => {
   const accessToken = data.accessToken;
   if (accessToken) {
     setAuthHeaders(accessToken);
-    let user: string;
-    try {
-      user = await api(fetch).getUsersMe();
-    } catch (error) {
-      console.error(error);
-      return { queryClient };
-    }
     const prefetchedUser = queryClient.prefetchQuery({
       queryKey: ['usersMe'],
       queryFn: () => api(fetch).getUsersMe(),
-      initialData: user
+      initialData: data.user
     });
     const prefetchedTasks = queryClient.prefetchQuery({
       queryKey: ['taskLists'],

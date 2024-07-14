@@ -1,7 +1,5 @@
 import type { LayoutServerLoad } from './$types';
 
 export const load = (async ({ locals }) => {
-  return {
-    accessToken: locals.accessToken
-  };
+  return locals;
 }) satisfies LayoutServerLoad;

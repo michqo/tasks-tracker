@@ -44,6 +44,10 @@ interface PostUserErrorResponse {
   password?: string[];
 }
 
+interface RefreshJWTResponse {
+  access: string;
+}
+
 export type {
   ActionResponse,
   LoginResponse,
@@ -52,5 +56,6 @@ export type {
   PostUserErrorResponse,
   Task,
   TaskList,
-  Transformable
+  Transformable,
+  RefreshJWTResponse
 };

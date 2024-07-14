@@ -1,10 +1,10 @@
+import { authApi } from '$lib/utils/api';
 import { loginSchema } from '$lib/utils/schemas';
+import type { PostUserErrorResponse } from '$lib/utils/types';
+import { error } from '@sveltejs/kit';
 import { fail, setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { Actions, PageServerLoad } from './$types';
-import { api, authApi } from '$lib/utils/api';
-import { error } from '@sveltejs/kit';
-import type { PostUserErrorResponse } from '$lib/utils/types';
 
 export const load = (async () => {
   return {
