@@ -18,16 +18,16 @@ export const handle: Handle = async ({ event, resolve }) => {
       setAuthHeaders(accessToken!);
       const user = await api(fetch).getUsersMe();
       event.locals.user = user;
-    } catch (error) {
+    } catch {
       try {
         const res = await authApi(fetch).refreshJwt(refreshToken!);
         event.cookies.set('access_token', res.access, { path: '/' });
-        redirect(308, event.url);
-      } catch (error) {
+      } catch {
         event.cookies.delete('access_token', { path: '/' });
         event.cookies.delete('refresh_token', { path: '/' });
         redirect(308, '/auth');
       }
+      redirect(308, event.url);
     }
   }
 
