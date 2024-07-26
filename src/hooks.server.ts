@@ -24,7 +24,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       } catch {
         event.cookies.delete('access_token', { path: '/' });
         event.cookies.delete('refresh_token', { path: '/' });
-        redirect(308, '/auth');
+        redirect(308, '/auth?for=login');
       }
       redirect(308, event.url);
     }
