@@ -52,6 +52,30 @@ const authApi = (customFetch = fetch) => ({
   }
 });
 
+const serverApi = (customFetch = fetch, token: string) => ({
+  joinTaskList: async (joinToken: string) => {
+    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklist/join/${joinToken}/`, {
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    });
+    if (!response.ok) {
+      throw await response.json();
+    }
+  },
+  getUsersMe: async (): Promise<string> => {
+    const response = await customFetch(`${PUBLIC_API_URL}/auth/users/me/`, {
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    });
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return (await response.json()).username;
+  }
+});
+
 let headers = {};
 
 const setAuthHeaders = (token: string) => {
@@ -131,16 +155,6 @@ const api = (customFetch = fetch) => ({
     }
     return (await response.json()).link;
   },
-  joinTaskList: async (token: string) => {
-    const response = await customFetch(`${PUBLIC_API_URL}/api/tasklist/join/${token}/`, {
-      headers: {
-        ...headers
-      }
-    });
-    if (!response.ok) {
-      throw await response.json();
-    }
-  },
   getTasks: async (id: string): Promise<Task[]> => {
     const response = await customFetch(`${PUBLIC_API_URL}/api/tasklists/${id}`, {
       headers
@@ -206,4 +220,4 @@ const transformItems = <T extends Transformable>(items: T[]): T[] =>
     .map((item) => ({ ...item, completed: item.completed_at != null }))
     .sort((a, b) => a.position - b.position);
 
-export { api, authApi, setAuthHeaders, transformItems };
+export { api, authApi, serverApi, setAuthHeaders, transformItems };

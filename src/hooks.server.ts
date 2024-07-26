@@ -1,4 +1,4 @@
-import { api, authApi, setAuthHeaders } from '$lib/utils/api';
+import { authApi, serverApi } from '$lib/utils/api';
 import { redirect, type Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -15,8 +15,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   if (accessToken) {
     try {
-      setAuthHeaders(accessToken!);
-      const user = await api(fetch).getUsersMe();
+      const user = await serverApi(fetch, accessToken).getUsersMe();
       event.locals.user = user;
     } catch {
       try {
