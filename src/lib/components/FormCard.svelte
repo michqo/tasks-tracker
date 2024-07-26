@@ -2,7 +2,7 @@
   import * as Card from '$lib/components/ui/card';
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input';
-  import { loginSchema, type LoginSchema } from '$lib/utils/schemas';
+  import { loginSchema, type LoginSchema } from '$lib/shared/schemas';
   import { createEventDispatcher } from 'svelte';
   import { superForm, type SuperValidated } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';

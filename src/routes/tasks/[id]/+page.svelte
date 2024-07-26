@@ -3,7 +3,7 @@
   import { page } from '$app/stores';
   import FormModal from '$lib/components/FormModal.svelte';
   import Main from '$lib/components/Main.svelte';
-  import { api, transformItems } from '$lib/utils/api';
+  import { api, transformItems } from '$lib/shared/api';
   import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
 
   const client = useQueryClient();

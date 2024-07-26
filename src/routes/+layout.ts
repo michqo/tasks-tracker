@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { api, setAuthHeaders } from '$lib/utils/api';
+import { api, setAuthHeaders } from '$lib/shared/api';
 import { QueryClient } from '@tanstack/svelte-query';
 import type { LayoutLoad } from './$types';
 

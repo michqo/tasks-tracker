@@ -1,8 +1,8 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { Checkbox } from '$lib/components/ui/checkbox';
-  import { api } from '$lib/utils/api';
-  import type { TaskList } from '$lib/utils/types';
+  import { api } from '$lib/shared/api';
+  import type { TaskList } from '$lib/shared/types';
   import { createMutation } from '@tanstack/svelte-query';
   import { GripVertical } from 'lucide-svelte';
   import { dragHandle, dragHandleZone, type DndEvent } from 'svelte-dnd-action';

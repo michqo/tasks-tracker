@@ -2,7 +2,7 @@
   import * as Dialog from '$lib/components/ui/dialog/index.js';
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input/index.js';
-  import { formSchema } from '$lib/utils/schemas';
+  import { formSchema } from '$lib/shared/schemas';
   import { createEventDispatcher } from 'svelte';
   import { defaults, superForm } from 'sveltekit-superforms';
   import { zod, zodClient } from 'sveltekit-superforms/adapters';

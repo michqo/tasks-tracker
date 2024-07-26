@@ -1,4 +1,4 @@
-import { serverApi } from '$lib/utils/api';
+import { serverApi } from '$lib/shared/api';
 import { redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 

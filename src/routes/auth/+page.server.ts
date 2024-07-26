@@ -1,6 +1,6 @@
-import { authApi } from '$lib/utils/api';
-import { loginSchema } from '$lib/utils/schemas';
-import type { PostUserErrorResponse } from '$lib/utils/types';
+import { authApi } from '$lib/shared/api';
+import { loginSchema } from '$lib/shared/schemas';
+import type { PostUserErrorResponse } from '$lib/shared/types';
 import { error } from '@sveltejs/kit';
 import { fail, setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';

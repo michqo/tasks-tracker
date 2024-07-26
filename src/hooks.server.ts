@@ -1,4 +1,4 @@
-import { authApi, serverApi } from '$lib/utils/api';
+import { authApi, serverApi } from '$lib/shared/api';
 import { redirect, type Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
