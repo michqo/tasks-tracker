@@ -4,6 +4,7 @@
   import { ModeWatcher } from 'mode-watcher';
   import '../app.pcss';
   import type { LayoutData } from './$types';
+  import Loading from '$lib/components/Loading.svelte';
 
   export let data: LayoutData;
 </script>
@@ -13,5 +14,6 @@
 <Toaster />
 
 <QueryClientProvider client={data.queryClient}>
+  <Loading />
   <slot />
 </QueryClientProvider>
