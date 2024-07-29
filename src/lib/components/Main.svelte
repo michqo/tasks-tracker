@@ -1,20 +1,13 @@
 <script lang="ts">
   import ThemeToggle from '$lib/components/ThemeToggle.svelte';
   import Button from '$lib/components/ui/button/button.svelte';
-  import TaskLists from '$lib/components/views/TaskLists.svelte';
-  import type { CreateQueryResult } from '@tanstack/svelte-query';
   import { createEventDispatcher } from 'svelte';
-  import Tasks from './views/Tasks.svelte';
 
   const dispatch = createEventDispatcher();
 
-  export let type: 'tasks' | 'tasklists';
-  export let query: CreateQueryResult<any[], Error>;
   export let username: string;
   export let formOpen: boolean;
   export let title: string;
-
-  $: data = $query.data ? $query.data : [];
 </script>
 
 <div class="p-4">
@@ -27,9 +20,5 @@
       <ThemeToggle />
     </div>
   </div>
-  {#if type == 'tasklists'}
-    <TaskLists {data} />
-  {:else}
-    <Tasks {data} />
-  {/if}
+  <slot />
 </div>

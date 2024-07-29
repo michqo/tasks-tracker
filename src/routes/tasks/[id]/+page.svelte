@@ -3,6 +3,7 @@
   import { page } from '$app/stores';
   import FormModal from '$lib/components/FormModal.svelte';
   import Main from '$lib/components/Main.svelte';
+  import Tasks from '$lib/components/views/Tasks.svelte';
   import { api, transformItems } from '$lib/shared/api';
   import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
 
@@ -45,8 +46,8 @@
 <Main
   on:logout={() => goto('/logout')}
   bind:formOpen
-  type="tasks"
-  query={dataQuery}
   username={$userQuery.data ? $userQuery.data : ''}
   title="Tasks"
-/>
+>
+  <Tasks data={$dataQuery.data ? $dataQuery.data : []} />
+</Main>

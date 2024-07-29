@@ -91,6 +91,7 @@
 />
 
 <section
+  class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4"
   use:dragHandleZone={{ items: data, flipDurationMs, dropTargetStyle: {} }}
   on:consider={handleDrag}
   on:finalize={handleSort}
@@ -105,11 +106,9 @@
         on:edit={() => onEdit(task.id)}
       >
         <div
-          class="group flex items-center justify-between border-b border-gray-300 py-2 {task.completed
-            ? 'line-through'
-            : ''}"
+          class="group flex items-center justify-between rounded-md border border-gray-500 px-4 py-3 md:py-6"
         >
-          <div class="flex items-center gap-x-3">
+          <div class="flex items-center gap-x-3 {task.completed ? 'line-through' : ''}">
             <Checkbox
               bind:checked={task.completed}
               on:click={() => $checkboxMutation.mutate(idx)}
